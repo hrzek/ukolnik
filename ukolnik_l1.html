@@ -1,0 +1,304 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+
+<title>Úkolníček Helpdesk L1</title>
+
+<style>
+
+
+#logout {
+
+position:fixed;
+bottom: 20px;
+left: 80px;
+}
+
+#odznac{
+position:fixed;
+bottom: 20px;
+left: 190px;
+}
+
+#notificationBar {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 40px;
+background-color: #ffcc00;
+color: black;
+font-size: 16px;
+font-weight: bold;
+display: flex;
+align-items: center;
+justify-content: center;
+border-bottom: 2px solid black;
+z-index: 1000;
+white-space: nowrap;
+}
+
+
+
+body {
+padding-top: 50px;
+background-image: url('pozadi_l1.jpg');
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+background-attachment: fixed;
+
+}
+
+
+
+#backButton {
+position: fixed;
+top: 5px;
+left: 10px;
+padding: 5px 10px;
+font-size: 16px;
+background-color: #007bff;
+color: white;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+z-index: 1100;
+}
+
+#backButton:hover {
+background-color: #0056b3;
+}
+
+#title
+{
+background-color: #d4edda;
+
+}
+h1
+{
+list-style: none;
+padding: 0;
+max-width: 400px;
+margin: 0 auto;
+}
+ul{
+list-style: none;
+padding: 0;
+max-width: 1000px;
+margin: 2 auto;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 5px;
+
+
+}
+li {
+display: flex;
+align-items: center;
+padding: 5px 10px;
+border: 1px solud #ccc;
+margin-bottom: 5px;
+
+
+}
+
+li.completed {
+background-color: #d4edda;
+color: #155724;
+text-decoration: line-through;
+}
+input[type="checkbox"] {
+margin-right: 10px;
+}    
+body { font-family: Arial, sans-serif; margin: 20px; }
+      
+ul { list-style: none; padding: 0; }
+       
+li { padding: 5px 10px; border: 2px solid #ccc; margin-bottom: 10px; }
+       
+li.completed { text-decoration: line-through; color: gray; }
+       
+button { margin-left: 10px; }
+
+
+</style>
+
+</head>
+
+
+
+
+<body>
+<div id="notificationBar"></div>
+
+
+
+<button id="backButton" onclick="goBack()"> Zpět</button>
+
+
+<script>
+function goBack() {
+window.history.back();
+}
+</script>
+
+
+<h1 id="dayHeader">Úkoly na #den</h1>
+<script>
+ <script>
+      if (sessionStorage.getItem("isLoggedIn") !== "true") {
+    alert("Nemáte přístup. Přihlaste se.");
+    window.location.href = "login.html";
+}
+
+const loggedInUser = sessionStorage.getItem("loggedInUser");
+document.getElementById("welcomeMessage").innerText = `Vítejte, ${loggedInUser}!`;
+
+function logout() {
+    sessionStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("loggedInUser");
+    window.location.href = "login.html";
+}
+
+</script>
+
+<script>
+function updateDayHeader() {
+
+
+const days = ['Neděle', 'Pondělí', 'Úterý', 'Středu', 'Čtvrtek', 'Pátek', 'Sobotu'];
+
+
+const today = new Date();
+
+const dayName = days[today.getDay()]; 
+
+const header = document.getElementById('dayHeader'); 
+header.innerText = `Úkoly na ${dayName}`; 
+        }
+
+updateDayHeader();
+
+</script>
+
+
+
+
+
+
+<h1></h1>
+<ul id="taskList">
+
+<label> <li><input type="checkbox"> 5:30 - 11:00 Otevření prodejny - kontrola</li> </label>
+<label> <li><input type="checkbox"> 5:30 - připojení do call centra</li> </label>
+<label> <li><input type="checkbox"> 5:30 - iTop - kontrola TTO tiketů</li> </label>
+<label> <li><input type="checkbox"> 5:30 - ZABBIX kontrola a řešení chyb na portále</li> </label>
+
+<label> <li><input type="checkbox"> 8:00 - Teamio - kontrola uchazečů z chatbotu</li> </label>
+<label> <li><input type="checkbox"> 10:00 - DigiLight - kontrola zařízení</li> </label>
+<label> <li><input type="checkbox"> 10:00 - Infokoutek (CZ) - kontrola zařízení</li> </label>
+<label> <li><input type="checkbox"> 10:00 - Infokoutek (SK) - kontrola zařízení</li> </label>
+<label> <li><input type="checkbox"> 12:00 - Kontrola emailů na emailové adresy helpdesku (extrecních, interních)</li> </label>
+<label> <li><input type="checkbox"> 14:00 - DigiLight - kontrola zařízení</li> </label>
+<label> <li><input type="checkbox"> 14:00 - Infokoutek (CZ) - kontrola zařízení</li> </label>
+<label> <li><input type="checkbox"> 14:00 - Infokoutek (SK) - kontrola zařízení</li> </label>
+<label> <li><input type="checkbox"> 14:00 - Teamio - kontrola uchazečů z chatbotu</li> </label>
+<label> <li><input type="checkbox"> 15:00 - Kontrola vlastních a týmových tiketů + předání kolegovi (I + R)</li> </label>
+
+<label> <li><input type="checkbox"> 15:00 - Revize nefunkčních zařízení v Notu</li> </label>
+
+<label> <li><input type="checkbox"> 18:00 - Teamio - kontrola uchazečů z chatbotu</li> </label>
+<label> <li><input type="checkbox"> 19:00 - Kontrola emailů na emailové adresy helpdesku (extrecních, interních)</li> </label>
+<label> <li><input type="checkbox"> 21:00 Kontrola vlastních a týmových tiketů + předání kolegovi (I + R)</li> </label>
+<label> <li><input type="checkbox"> 21:00 - Revize nefunkčních zařízení v Notu</li> </label>
+
+
+
+
+
+<script>
+function checkHighlighted() {
+   document.querySelectorAll('.highlight input[type="checkbox"]').forEach(checkbox => {
+       checkbox.checked = true;
+       checkbox.parentElement.classList.add('completed'); // Přidá třídu 'completed'
+   });
+}
+
+</script>
+
+<script>
+const taskList = document.getElementById('taskList');
+taskList.addEventListener('change', (event) => {
+if (event.target.type === 'checkbox') {
+const listItem = event.target.parentElement;
+listItem.classList.toggle('completed');
+}
+});
+</script>
+
+
+
+
+<button id="odznac" onclick="uncheckAll()">Odznačit vše</button>
+<button id= "logout" onclick="logout()">Odhlásit se</button>
+
+
+<script>
+function uncheckAll() {
+if (confirm("Opravu chcete vše odznačit?")) {
+
+document.querySelectorAll('#taskList input[type="checkbox"]').forEach(checkbox => {
+checkbox.checked = false;
+checkbox.parentElement.classList.remove('completed');
+});
+}
+}
+</script>
+
+<script>
+    function logout() {
+        localStorage.removeItem("isLoggedIn");
+        window.location.href = "login.html";
+    }
+ function handleEnter(event) {
+            if (event.key === "Enter") {
+                validateLogin(); // Zavolání funkce přihlášení
+            }
+        }
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+   const taskList = document.getElementById("taskList");
+   // Připojí event listener na celý seznam úkolů (delegace)
+   taskList.addEventListener("change", function (event) {
+       if (event.target && event.target.type === "checkbox") {
+           if (event.target.checked) {
+               const taskName = event.target.parentElement.textContent.trim();
+               const userName = sessionStorage.getItem("loggedInUser") || "Neznámý uživatel";
+               updateNotification(taskName, userName);
+           }
+       }
+   });
+});
+// Funkce pro aktualizaci notifikace s časem
+function updateNotification(task, user) {
+   const now = new Date().toLocaleTimeString("cs-CZ", { hour: "2-digit", minute: "2-digit" });
+   const notificationBar = document.getElementById("notificationBar");
+   if (notificationBar) {
+       
+notificationBar.textContent = `Poslední dokončený úkol: ${task}  Řešitel: ${user} v čase: ${now} hod.
+ `  }
+}
+</script>
+</body>
+</html>

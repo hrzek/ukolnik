@@ -1,0 +1,353 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+
+<title>Úkolníček Helpdesk L2</title>
+
+<style>
+
+
+#notificationBar {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 40px;
+background-color: #ffcc00;
+color: black;
+font-size: 16px;
+font-weight: bold;
+display: flex;
+align-items: center;
+justify-content: center;
+border-bottom: 2px solid black;
+z-index: 1000;
+white-space: nowrap;
+}
+
+
+
+body {
+padding-top: 50px;
+background-image: url('pozadi_l2.jpg');
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+background-attachment: fixed;
+
+}
+
+
+
+#backButton {
+position: fixed;
+top: 5px;
+left: 10px;
+padding: 5px 10px;
+font-size: 16px;
+background-color: #007bff;
+color: white;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+z-index: 1100;
+}
+
+#backButton:hover {
+background-color: #0056b3;
+}
+
+#title
+{
+background-color: #d4edda;
+
+}
+h1
+{
+list-style: none;
+padding: 0;
+max-width: 400px;
+margin: 0 auto;
+}
+ul{
+list-style: none;
+padding: 0;
+max-width: 1000px;
+margin: 2 auto;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 5px;
+
+
+}
+li {
+display: flex;
+align-items: center;
+padding: 5px 10px;
+border: 1px solud #ccc;
+margin-bottom: 5px;
+
+
+}
+
+li.completed {
+background-color: #d4edda;
+color: #155724;
+text-decoration: line-through;
+}
+input[type="checkbox"] {
+margin-right: 10px;
+}    
+body { font-family: Arial, sans-serif; margin: 20px; }
+      
+ul { list-style: none; padding: 0; }
+       
+li { padding: 5px 10px; border: 2px solid #ccc; margin-bottom: 10px; }
+       
+li.completed { text-decoration: line-through; color: gray; }
+       
+button { margin-left: 10px; }
+
+li label {
+display: flex;
+align-items: center;
+width: 100%;
+padding: 10px;
+cursor: pointer; }
+
+</style>
+</head>
+
+
+
+
+<body>
+<button id="backButton" onclick="goBack()"> Zpět</button>
+<div id="notificationBar"></div>
+
+
+
+
+<script>
+function goBack() {
+window.history.back();
+}
+</script>
+
+
+<h1 id="dayHeader">Úkoly na #den</h1>
+<script>
+ <script>
+      if (sessionStorage.getItem("isLoggedIn") !== "true") {
+    alert("Nemáte přístup. Přihlaste se.");
+    window.location.href = "login.html";
+}
+
+const loggedInUser = sessionStorage.getItem("loggedInUser");
+document.getElementById("welcomeMessage").innerText = `Vítejte, ${loggedInUser}!`;
+
+function logout() {
+    sessionStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("loggedInUser");
+    window.location.href = "login.html";
+}
+
+</script>
+
+<script>
+function updateDayHeader() {
+
+
+const days = ['Neděle', 'Pondělí', 'Úterý', 'Středu', 'Čtvrtek', 'Pátek', 'Sobotu'];
+
+
+const today = new Date();
+
+const dayName = days[today.getDay()]; 
+
+const header = document.getElementById('dayHeader'); 
+header.innerText = `Úkoly na ${dayName}`; 
+        }
+
+updateDayHeader();
+
+</script>
+
+
+
+
+
+
+<h1></h1>
+<ul id="taskList">
+
+<label>
+<li class="highlight"><input type="checkbox"> 5:30 - připojení do call centra</li>
+</label>
+
+
+<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu ZRA01</li></label>
+
+<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu MIBSALE</li></label>
+
+<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu FINANCE CZ</li></label>
+
+<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu FINANCE SK</li></label>
+
+<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu FINANCE DE</li></label>
+
+<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu HANA CZ</li></label>
+
+<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu HANA SK</li></label>
+
+<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu HANA DE</li></label>
+
+<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu SD plánování</li></label>
+
+<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu Personalistika</li></label>
+
+<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu HR mzdy CZ</li></label>
+
+<label><li class="highlight"><input type="checkbox"> 5:30 - Kontrola spuštění procesu vytváření objednávek v SAP SM37</li></label>
+
+<label><li class="highlight"><input type="checkbox"> 5:30 - SAP_kontrola procesu ZWPERM</li></label>
+
+<label><li class="highlight"><input type="checkbox"> 5:30 - v BI - kontrola iDoců - statusy -> nastavit rozsah min. 5 dní zpět. BD87</li></label>
+
+<label><li class="highlight"><input type="checkbox"> 5:30 - kontrola iDoců - statusy -> nastavit rozsah min. 5 dní zpět. BD87</li></label>
+
+<label><li class="highlight"><input type="checkbox"> 5:30 - Zpracování Bio certifikátů pro LMS</li></label>
+
+<label><li class="highlight"><input type="checkbox"> 6:00 - Kontrola chyb e-shopů v SAP JTI</li></label>
+
+<label><li><input type="checkbox"> 6:00 - Infina - kontrola nočních importů</li></label>
+
+<label><li><input type="checkbox"> 7:00 - Kontrola průběhu procesu Logistika CZ</li></label>
+
+<label><li><input type="checkbox"> 8:00 - připojení do call centra - CZ + SK zákazníka a B2B linka</li> </label>
+
+<label><li><input type="checkbox"> 8:30 - Kontrola průběhu procesu Logistika SK</li></label>
+
+<label><li><input type="checkbox"> 9:30 - Kontrola průběhu procesu Logistika DE</li></label>
+
+<label><li><input type="checkbox"> 10:00 - Kontrola průběhu procesu Finance - odb. CZ</li></label>
+
+<label><li><input type="checkbox"> 12:30 - Kontrola průběhu procesu Logistika CZ_SD delta- 12hod CZ</li></label>
+
+<label><li><input type="checkbox"> 13:45 - MPK - kontrola emailu na IceWarp</li></label>
+<label><li><input type="checkbox"> 14:00 - MPK - kontrola SAP složky pro MPK</li></label>
+<label><li><input type="checkbox"> 14:00 - Kontrola rolet a trezorů v Aktionu</li></label>
+<label><li><input type="checkbox"> 15:00 - Kontrola zpracování avíz MPK v SAP</li></label>
+<label><li><input type="checkbox"> 15:00 - Kontrola vlastních a týmových tiketů + předání kolegovi + epay zapsání odpovědí</li></label>
+<label><li><input type="checkbox"> 18:00 - PNS kontrola na IceWarp - zaslání avíz na email</li></label>
+<label><li><input type="checkbox"> 18:40 - PNS - kontrola SAP složky pro PNS</li></label>
+<label><li><input type="checkbox"> 19:00 - Kontrola zpracování avíz PNS v SAP</li></label>
+<label><li><input type="checkbox"> 19:00 - Kontrola rolet a trezorů v Aktionu</li></label>
+<label><li><input type="checkbox"> 21:00 - Kontrola vlastních a týmových tiketů + předání kolegovi + epay zapsání odpovědí</li></label>
+
+</ul>
+
+
+
+
+<script>
+function checkHighlighted() {
+   document.querySelectorAll('.highlight input[type="checkbox"]').forEach(checkbox => {
+       checkbox.checked = true;
+       checkbox.parentElement.classList.add('completed'); // Přidá třídu 'completed'
+   });
+}
+
+</script>
+
+<script>
+const taskList = document.getElementById('taskList');
+taskList.addEventListener('change', (event) => {
+if (event.target.type === 'checkbox') {
+const listItem = event.target.parentElement;
+listItem.classList.toggle('completed');
+}
+});
+</script>
+
+
+<script>
+       
+
+const taskList = document.getElementById('taskList');
+       
+taskList.addEventListener('click', (event) => {
+           
+if (event.target.tagName === 'LI') {
+               
+event.target.classList.toggle('completed');            }
+       });
+
+</script>
+
+<button onclick="checkHighlighted()">Ranní kontrola</button>
+<button onclick="uncheckAll()">Odznačit vše</button>
+<button onclick="logout()">Odhlásit se</button>
+
+
+<script>
+function uncheckAll() {
+if (confirm("Opravu chcete vše odznačit?")) {
+
+document.querySelectorAll('#taskList input[type="checkbox"]').forEach(checkbox => {
+checkbox.checked = false;
+checkbox.parentElement.classList.remove('completed');
+});
+}
+}
+</script>
+
+<script>
+    function logout() {
+        localStorage.removeItem("isLoggedIn");
+        window.location.href = "login.html";
+    }
+ function handleEnter(event) {
+            if (event.key === "Enter") {
+                validateLogin(); // Zavolání funkce přihlášení
+            }
+        }
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+   const taskList = document.getElementById("taskList");
+   // Připojí event listener na celý seznam úkolů (delegace)
+   taskList.addEventListener("click", function (event) {
+ 
+ if (event.target && event.target.type === "checkbox") {
+           if (event.target.checked) {
+               const taskName = event.target.parentElement.textContent.trim();
+               const userName = sessionStorage.getItem("loggedInUser") || "Neznámý uživatel";
+               updateNotification(taskName, userName);
+           }
+       }
+   });
+});
+// Funkce pro aktualizaci notifikace s časem
+function updateNotification(task, user) {
+   const now = new Date().toLocaleTimeString("cs-CZ", { hour: "2-digit", minute: "2-digit" });
+   const notificationBar = document.getElementById("notificationBar");
+   if (notificationBar) {
+       
+notificationBar.textContent = `Poslední dokončený úkol: ${task}; Řešitel: ${user};
+ v čase  ${now} hod.` }
+}
+</script>
+
+
+</body>
+</html>
