@@ -55,6 +55,14 @@
     </style>
 </head>
 <body>
+<script>
+    function login() {
+        // Simulace přihlášení 
+        localStorage.setItem("isLoggedIn", "true"); 
+        window.location.href = "index.html"; // Přesměrování na hlavní stránku
+    }
+</script>
+<button onclick="login()">Přihlásit se</button>
 
 
 
