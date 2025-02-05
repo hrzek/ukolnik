@@ -157,7 +157,7 @@ window.history.back();
  <script>
       if (sessionStorage.getItem("isLoggedIn") !== "true") {
     alert("Nemáte přístup. Přihlaste se.");
-    window.location.href = "login.html";
+    window.location.href = "index.html";
 }
 
 const loggedInUser = sessionStorage.getItem("loggedInUser");
@@ -267,7 +267,7 @@ checkbox.parentElement.classList.remove('completed');
 <script>
     function logout() {
         localStorage.removeItem("isLoggedIn");
-        window.location.href = "login.html";
+        window.location.href = "index.html";
     }
  function handleEnter(event) {
             if (event.key === "Enter") {
