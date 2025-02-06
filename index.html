@@ -55,7 +55,12 @@
     </style>
 </head>
 <body>
-
+<script>
+    // Kontrola, zda je uživatel přihlášen
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+        window.location.href = "index.html"; // Přesměrování na login stránku
+    }
+</script>
 
 
    <div class="login-container">
@@ -84,8 +89,8 @@ function validateLogin() {
 
     if (userExists) {
         // Uložení přihlášení do sessionStorage
-        sessionStorage.setItem("isLoggedIn", "true");
-        sessionStorage.setItem("loggedInUser", username); // Volitelně uložte jméno uživatele
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("loggedInUser", username); // Volitelně uložte jméno uživatele
         window.location.href = "stranka_vyber.html";
     } else {
         document.getElementById("errorMessage").innerText = "Neplatné přihlašovací údaje!";
