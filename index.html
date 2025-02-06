@@ -89,8 +89,8 @@ function validateLogin() {
 
     if (userExists) {
         // Uložení přihlášení do sessionStorage
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("loggedInUser", username); // Volitelně uložte jméno uživatele
+        sessionStorage.setItem("isLoggedIn", "true");
+        sessionStorage.setItem("loggedInUser", username); // Volitelně uložte jméno uživatele
         window.location.href = "stranka_vyber.html";
     } else {
         document.getElementById("errorMessage").innerText = "Neplatné přihlašovací údaje!";
