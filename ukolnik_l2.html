@@ -133,12 +133,6 @@ cursor: pointer; }
 <button id="backButton" onclick="goBack()"> Zpět</button>
 <div id="notificationBar"></div>
 
-<script>
-    // Kontrola, zda je uživatel přihlášen
-    if (localStorage.getItem("isLoggedIn") !== "true") {
-        window.location.href = "index.html"; // Přesměrování na login stránku
-    }
-</script>
 
 
 
@@ -354,13 +348,6 @@ notificationBar.textContent = `Poslední dokončený úkol: ${task}; Řešitel: 
 }
 </script>
 
-<script>
-    function logout() {
-        localStorage.removeItem("isLoggedIn"); // Odstranění přihlášení
-        window.location.href = "index.html"; // Přesměrování na přihlašovací stránku
-    }
-</script>
-<button id="logout" onclick="logout()">Odhlásit se</button>
 
 </body>
 </html>
