@@ -61,7 +61,12 @@ left: 200px;
     </style>
 </head>
 <body>
-
+<script>
+    // Kontrola, zda je uživatel přihlášen
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+        window.location.href = "index.html"; // Přesměrování na login stránku
+    }
+</script>
     <div class="container">
         <!-- Vybrat Section -->
         <div class="section">
