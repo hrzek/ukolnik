@@ -350,7 +350,7 @@ notificationBar.textContent = `Poslední dokončený úkol: ${task}; Řešitel: 
 
   
   
-<//script>
+<script>
 document.addEventListener("DOMContentLoaded", function () {
    const taskList = document.getElementById("taskList");
    taskList.addEventListener("click", function (event) {
@@ -376,11 +376,11 @@ function updateNotification(task, user) {
        notificationBar.textContent = `Poslední dokončený úkol: ${task}; Řešitel: ${user}; v čase ${now} hod.`;
    }
 }
-<//script>
+</script>
 
 
 
   
-<button onclick="window.location.href='log.html'">Zobrazit historii</button>
+<button onclick="window.location.href='history.html'">Zobrazit historii</button>
 </body>
 </html>
