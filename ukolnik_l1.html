@@ -14,7 +14,13 @@
 
 <style>
 
+#history {
 
+position:fixed;
+bottom: 20px;
+left: 300px;
+}
+  
 #logout {
 
 position:fixed;
@@ -250,6 +256,7 @@ listItem.classList.toggle('completed');
 
 <button id="odznac" onclick="uncheckAll()">Odznačit vše</button>
 <button id= "logout" onclick="logout()">Odhlásit se</button>
+<button id="history" onclick="window.location.href='history.html'">Zobrazit historii</button>
 
 
 <script>
@@ -335,6 +342,5 @@ function updateNotification(task, user) {
 
 
   
-<button onclick="window.location.href='history.html'">Zobrazit historii</button>
 </body>
 </html>
