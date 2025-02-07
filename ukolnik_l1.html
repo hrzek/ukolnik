@@ -300,5 +300,41 @@ notificationBar.textContent = `Poslední dokončený úkol: ${task}  Řešitel: 
  `  }
 }
 </script>
+
+
+
+
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+   const taskList = document.getElementById("taskList");
+   taskList.addEventListener("click", function (event) {
+       if (event.target && event.target.type === "checkbox") {
+           const taskName = event.target.parentElement.textContent.trim();
+           const userName = sessionStorage.getItem("loggedInUser") || "Neznámý uživatel";
+           const now = new Date();
+           const timestamp = now.toISOString(); // Uložíme datum a čas
+           // Uložit do logu
+           let taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
+           taskLog.push({ user: userName, task: taskName, time: timestamp });
+           // Uložit zpět do localStorage
+           localStorage.setItem("taskLog", JSON.stringify(taskLog));
+           updateNotification(taskName, userName);
+       }
+   });
+});
+// Funkce pro aktualizaci notifikace
+function updateNotification(task, user) {
+   const now = new Date().toLocaleTimeString("cs-CZ", { hour: "2-digit", minute: "2-digit" });
+   const notificationBar = document.getElementById("notificationBar");
+   if (notificationBar) {
+       notificationBar.textContent = `Poslední dokončený úkol: ${task}; Řešitel: ${user}; v čase ${now} hod.`;
+   }
+}
+</script>
+
+
+
+  
+<button onclick="window.location.href='history.html'">Zobrazit historii</button>
 </body>
 </html>
