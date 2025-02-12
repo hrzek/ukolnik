@@ -307,18 +307,22 @@ notificationBar.textContent = `Poslední dokončený úkol: ${task}  Řešitel: 
   <script>
 document.addEventListener("DOMContentLoaded", function () {
    const taskList = document.getElementById("taskList");
-   taskList.addEventListener("click", function (event) {
+   taskList.addEventListener("change", function (event) {
        if (event.target && event.target.type === "checkbox") {
            const taskName = event.target.parentElement.textContent.trim();
            const userName = sessionStorage.getItem("loggedInUser") || "Neznámý uživatel";
            const now = new Date();
-           const timestamp = now.toISOString(); // Uložíme datum a čas
+           const timestamp = now.toISOString(); // Uložit datum a čas
+         
            // Uložit do logu
-           let taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
-           taskLog.push({ user: userName, task: taskName, time: timestamp });
-           // Uložit zpět do localStorage
-           localStorage.setItem("taskLog", JSON.stringify(taskLog));
-           updateNotification(taskName, userName);
+           if (event.target.checked) {
+                let taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
+                taskLog.push({ user: userName, task: taskName, time: timestamp });
+                localStorage.setItem("taskLog", JSON.stringify(taskLog));
+                updateNotification(taskName, userName, now);
+            } else {
+                // Výmaz notifikace
+                clearNotification();
        }
    });
 });
@@ -329,6 +333,14 @@ function updateNotification(task, user) {
    if (notificationBar) {
        notificationBar.textContent = `Poslední dokončený úkol: ${task}; Řešitel: ${user}; v čase ${now} hod.`;
    }
+}
+
+  // Funkce pro výmaz notifikace
+function clearNotification() {
+const notificationBar = document.getElementById("notificationBar");
+if (notificationBar) {
+notificationBar.textContent = ''; 
+    }
 }
 </script>
 
