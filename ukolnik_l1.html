@@ -105,9 +105,6 @@ display: grid;
 grid-template-columns: repeat(3, 1fr);
 gap: 5px;
 
-.hidden {
-  display:none 
-}
 li {
 display: flex;
 align-items: center;
@@ -205,7 +202,7 @@ updateDayHeader();
 <h1></h1>
 <ul id="taskList">
 
-<label> <li data-day="0,1,2,4,5,6" class="hidden"><input type="checkbox"> 5:30 - 11:00 Otevření prodejny - kontrola</li> </label>
+<label> <li><input type="checkbox"> 5:30 - 11:00 Otevření prodejny - kontrola</li> </label>
 <label> <li><input type="checkbox"> 5:30 - připojení do call centra</li> </label>
 <label> <li><input type="checkbox"> 5:30 - iTop - kontrola TTO tiketů</li> </label>
 <label> <li><input type="checkbox"> 5:30 - ZABBIX kontrola a řešení chyb na portále</li> </label>
@@ -224,17 +221,6 @@ updateDayHeader();
 <label> <li><input type="checkbox"> 19:00 - Kontrola emailů na emailové adresy helpdesku (extrecních, interních)</li> </label>
 <label> <li><input type="checkbox"> 21:00 Kontrola vlastních a týmových tiketů + předání kolegovi (I + R)</li> </label>
 <label> <li><input type="checkbox"> 21:00 - Revize nefunkčních zařízení v Notu</li> </label>
-
-<script>
-let dnesniDen = new Date().getDay();
-let ukoly = document.querySelectorAll("li[data-day]");
-ukoly.forEach(ukol => {
-let dny = ukol.getAttribute("data-day").split(",").map(Number);
-if (dny.includes(dnesniDen)) {
-ukol.classList.remove("hidden");
-
-}});
-</script>
 
 
 
