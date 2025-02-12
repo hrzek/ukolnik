@@ -333,31 +333,49 @@ notificationBar.textContent = `Poslední dokončený úkol: ${task}; Řešitel: 
 
   
   
-<script>
+ <script>
+
+    
 document.addEventListener("DOMContentLoaded", function () {
-   const taskList = document.getElementById("taskList");
-   taskList.addEventListener("click", function (event) {
-       if (event.target && event.target.type === "checkbox") {
-           const taskName = event.target.parentElement.textContent.trim();
-           const userName = sessionStorage.getItem("loggedInUser") || "Neznámý uživatel";
-           const now = new Date();
-           const timestamp = now.toISOString(); // Uložíme datum a čas
-           // Uložit do logu
-           let taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
-           taskLog.push({ user: userName, task: taskName, time: timestamp });
-           // Uložit zpět do localStorage
-           localStorage.setItem("taskLog", JSON.stringify(taskLog));
-           updateNotification(taskName, userName);
-       }
-   });
+    const taskList = document.getElementById("taskList");
+
+    // Připojení event listeneru na změnu stavu checkboxu
+    taskList.addEventListener("change", function (event) {
+        if (event.target && event.target.type === "checkbox") {
+            const taskName = event.target.parentElement.textContent.trim();
+            const userName = sessionStorage.getItem("loggedInUser") || "Neznámý uživatel";
+            const now = new Date();
+            const timestamp = now.toISOString(); // Uložíme datum a čas
+
+            // Pokud checkbox je zaškrtnutý, aktualizujeme notifikaci
+            if (event.target.checked) {
+                let taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
+                taskLog.push({ user: userName, task: taskName, time: timestamp });
+                localStorage.setItem("taskLog", JSON.stringify(taskLog));
+                updateNotification(taskName, userName, now);
+            } else {
+                // Pokud checkbox není zaškrtnutý, vymaže se notifikace
+                clearNotification();
+            }
+        }
+    });
 });
+
 // Funkce pro aktualizaci notifikace
-function updateNotification(task, user) {
-   const now = new Date().toLocaleTimeString("cs-CZ", { hour: "2-digit", minute: "2-digit" });
-   const notificationBar = document.getElementById("notificationBar");
-   if (notificationBar) {
-       notificationBar.textContent = `Poslední dokončený úkol: ${task}; Řešitel: ${user}; v čase ${now} hod.`;
-   }
+function updateNotification(task, user, time) {
+    const now = time.toLocaleTimeString("cs-CZ", { hour: "2-digit", minute: "2-digit" });
+    const notificationBar = document.getElementById("notificationBar");
+    if (notificationBar) {
+        notificationBar.textContent = `Poslední dokončený úkol: ${task}; Řešitel: ${user}; v čase ${now} hod.`;
+    }
+}
+
+  // Funkce pro výmaz notifikace
+function clearNotification() {
+    const notificationBar = document.getElementById("notificationBar");
+    if (notificationBar) {
+        notificationBar.textContent = ''; 
+    }
 }
 </script>
 
