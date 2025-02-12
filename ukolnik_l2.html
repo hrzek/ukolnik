@@ -45,7 +45,9 @@ background-attachment: fixed;
 
 }
 
-
+.hidden {
+  display:none 
+}
 
 #backButton {
 position: fixed;
@@ -189,80 +191,61 @@ updateDayHeader();
 <h1></h1>
 <ul id="taskList">
 
-<label>
-<li class="highlight"><input type="checkbox"> 5:30 - připojení do call centra</li>
-</label>
 
-
-<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu ZRA01</li></label>
-
-<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu MIBSALE</li></label>
-
-<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu FINANCE CZ</li></label>
-
-<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu FINANCE SK</li></label>
-
-<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu FINANCE DE</li></label>
-
-<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu HANA CZ</li></label>
-
-<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu HANA SK</li></label>
-
-<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu HANA DE</li></label>
-
-<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu SD plánování</li></label>
-
-<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu Personalistika</li></label>
-
-<label><li class="highlight"><input type="checkbox"> 5:30 - BI_kontrola procesu HR mzdy CZ</li></label>
-
-<label><li class="highlight"><input type="checkbox"> 5:30 - Kontrola spuštění procesu vytváření objednávek v SAP SM37</li></label>
-
-<label><li class="highlight"><input type="checkbox"> 5:30 - SAP_kontrola procesu ZWPERM</li></label>
-
-<label><li class="highlight"><input type="checkbox"> 5:30 - v BI - kontrola iDoců - statusy -> nastavit rozsah min. 5 dní zpět. BD87</li></label>
-
-<label><li class="highlight"><input type="checkbox"> 5:30 - kontrola iDoců - statusy -> nastavit rozsah min. 5 dní zpět. BD87</li></label>
-
-<label><li class="highlight"><input type="checkbox"> 5:30 - Zpracování Bio certifikátů pro LMS</li></label>
-
-<label><li class="highlight"><input type="checkbox"> 6:00 - Kontrola chyb e-shopů v SAP JTI</li></label>
-
-<label><li class="highlight"><input type="checkbox"> 6:00 - Infina - kontrola nočních importů</li></label>
-
-<label><li><input type="checkbox"> 7:00 - Kontrola průběhu procesu Logistika CZ</li></label>
-
-<label><li><input type="checkbox"> 8:00 - připojení do call centra - CZ + SK zákazníka a B2B linka</li> </label>
-
-<label><li><input type="checkbox"> 8:30 - Kontrola průběhu procesu Logistika SK</li></label>
-
-<label><li><input type="checkbox"> 9:30 - Kontrola průběhu procesu Logistika DE</li></label>
-
-<label><li><input type="checkbox"> 10:00 - Kontrola průběhu procesu Finance - odb. CZ</li></label>
-
-<label><li><input type="checkbox"> 12:30 - Kontrola průběhu procesu Logistika CZ_SD delta- 12hod CZ</li></label>
-
-<label><li><input type="checkbox"> 13:45 - MPK - kontrola emailu na IceWarp</li></label>
-<label><li><input type="checkbox"> 14:00 - MPK - kontrola SAP složky pro MPK</li></label>
-<label><li><input type="checkbox"> 14:00 - Kontrola rolet a trezorů v Aktionu</li></label>
-<label><li><input type="checkbox"> 15:00 - Kontrola zpracování avíz MPK v SAP</li></label>
-<label><li><input type="checkbox"> 15:00 - Kontrola vlastních a týmových tiketů + předání kolegovi + epay zapsání odpovědí</li></label>
-<label><li><input type="checkbox"> 18:00 - PNS kontrola na IceWarp - zaslání avíz na email</li></label>
-<label><li><input type="checkbox"> 18:40 - PNS - kontrola SAP složky pro PNS</li></label>
-<label><li><input type="checkbox"> 19:00 - Kontrola zpracování avíz PNS v SAP</li></label>
-<label><li><input type="checkbox"> 19:00 - Kontrola rolet a trezorů v Aktionu</li></label>
-<label><li><input type="checkbox"> 21:00 - Kontrola vlastních a týmových tiketů + předání kolegovi + epay zapsání odpovědí</li></label>
-
+<label><li data-day="0,1,2,3,4,5,6" "class="highlight,hidden"><input type="checkbox"> 5:30 - připojení do call centra</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight,hidden"><input type="checkbox"> 5:30 - BI_kontrola procesu ZRA01</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight,hidden"><input type="checkbox"> 5:30 - BI_kontrola procesu MIBSALE</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight,hidden"><input type="checkbox"> 5:30 - BI_kontrola procesu FINANCE CZ</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight,hidden"><input type="checkbox"> 5:30 - BI_kontrola procesu FINANCE SK</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight,hidden"><input type="checkbox"> 5:30 - BI_kontrola procesu FINANCE DE</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight,hidden"><input type="checkbox"> 5:30 - BI_kontrola procesu HANA CZ</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight,hidden"><input type="checkbox"> 5:30 - BI_kontrola procesu HANA SK</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight,hidden"><input type="checkbox"> 5:30 - BI_kontrola procesu HANA DE</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight,hidden"><input type="checkbox"> 5:30 - BI_kontrola procesu SD plánování</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight,hidden"><input type="checkbox"> 5:30 - BI_kontrola procesu Personalistika</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight,hidden"><input type="checkbox"> 5:30 - BI_kontrola procesu HR mzdy CZ</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight,hidden"><input type="checkbox"> 5:30 - Kontrola spuštění procesu vytváření objednávek v SAP SM37</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight,hidden"><input type="checkbox"> 5:30 - SAP_kontrola procesu ZWPERM</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight,hidden"<input type="checkbox"> 5:30 - v BI - kontrola iDoců - statusy -> nastavit rozsah min. 5 dní zpět. BD87</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight,hidden"><input type="checkbox"> 5:30 - kontrola iDoců - statusy -> nastavit rozsah min. 5 dní zpět. BD87</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight,hidden"><input type="checkbox"> 5:30 - Zpracování Bio certifikátů pro LMS</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight,hidden"><input type="checkbox"> 6:00 - Kontrola chyb e-shopů v SAP JTI</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight,hidden"><input type="checkbox"> 6:00 - Infina - kontrola nočních importů</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 7:00 - Kontrola průběhu procesu Logistika CZ</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 8:00 - připojení do call centra - CZ + SK zákazníka a B2B linka</li> </label>
+<label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 8:30 - Kontrola průběhu procesu Logistika SK</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 9:30 - Kontrola průběhu procesu Logistika DE</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 10:00 - Kontrola průběhu procesu Finance - odb. CZ</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 12:30 - Kontrola průběhu procesu Logistika CZ_SD delta- 12hod CZ</li></label>
+<label><li data-day="2,3,5" class="hidden"><input type="checkbox"> 13:45 - MPK - kontrola emailu na IceWarp</li></label>
+<label><li data-day="2,3,5" class="hidden"><input type="checkbox"> 14:00 - MPK - kontrola SAP složky pro MPK</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 14:00 - Kontrola rolet a trezorů v Aktionu</li></label>
+<label><li data-day="2,3,5" class="hidden"><input type="checkbox"> 15:00 - Kontrola zpracování avíz MPK v SAP</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 15:00 - Kontrola vlastních a týmových tiketů + předání kolegovi + epay zapsání odpovědí</li></label>
+<label><li data-day="1,2,3,4,5" class="hidden"><input type="checkbox"> 18:00 - PNS kontrola na IceWarp - zaslání avíz na email</li></label>
+<label><li data-day="1,2,3,4,5" class="hidden"><input type="checkbox"> 18:40 - PNS - kontrola SAP složky pro PNS</li></label>
+<label><li data-day="1,2,3,4,5" class="hidden"><input type="checkbox"> 19:00 - Kontrola zpracování avíz PNS v SAP</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 19:00 - Kontrola rolet a trezorů v Aktionu</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 21:00 - Kontrola vlastních a týmových tiketů + předání kolegovi + epay zapsání odpovědí</li></label>
+<label><li data-day="0" class="hidden"><input type="checkbox"> 21:00 - BI_kontrola procesu Výmaz PSA</li></label>
 </ul>
 
-
+<script>
+let dnesniDen = new Date().getDay();
+let ukoly = document.querySelectorAll("li[data-day]");
+ukoly.forEach(ukol => {
+let dny = ukol.getAttribute("data-day").split(",").map(Number);
+if (dny.includes(dnesniDen)) {
+ukol.classList.remove("hidden");
+}});
+</script>
 
 
 <script>
 function checkHighlighted() {
    document.querySelectorAll('.highlight input[type="checkbox"]').forEach(checkbox => {
        checkbox.checked = true;
-       checkbox.parentElement.classList.add('completed'); // Přidá třídu 'completed'
+       checkbox.parentElement.classList.add('completed'); // Přidá třídu completed
    });
 }
 
