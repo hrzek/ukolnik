@@ -118,7 +118,15 @@ updateDayHeader();
 <label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 21:00 - Kontrola vlastních a týmových tiketů + předání kolegovi + epay zapsání odpovědí</li></label>
 <label><li data-day="0" class="hidden"><input type="checkbox"> 21:00 - BI_kontrola procesu Výmaz PSA</li></label>
 </ul>
+<script>
+function checkHighlighted() {
+   document.querySelectorAll('.highlight input[type="checkbox"]').forEach(checkbox => {
+       checkbox.checked = true;
+       checkbox.parentElement.classList.add('completed'); // Přidá třídu 'completed'
+   });
+}
 
+</script>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -206,24 +214,21 @@ ukoly.forEach(ukol => {
 });
 
 </script>
+  
 <script>
-  // event listener pro kliknutí na LI
+  
+ const taskList = document.getElementById('taskList');
+       
 taskList.addEventListener('click', (event) => {
-    if (event.target.tagName === 'LI') {
-        event.target.classList.toggle('completed');            
-    }
-});
-</script>
-
-<script>
-function checkHighlighted() {
-   document.querySelectorAll('.highlight input[type="checkbox"]').forEach(checkbox => {
-       checkbox.checked = true;
-       checkbox.parentElement.classList.add('completed'); // Přidá třídu 'completed'
-   });
-}
+           
+if (event.target.tagName === 'LI') {
+               
+event.target.classList.toggle('completed');            }
+       });
 
 </script>
+
+
 
 
 
