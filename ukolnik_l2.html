@@ -205,10 +205,13 @@ ukol.classList.remove("hidden");
 
 <script>
 function checkHighlighted() {
-   document.querySelectorAll('.highlight input[type="checkbox"]').forEach(checkbox => {
-       checkbox.checked = true;
-       checkbox.parentElement.classList.add('completed');
-   });
+    document.querySelectorAll('.highlight input[type="checkbox"]').forEach(checkbox => {
+        // Zaškrtnutí checkboxu
+        checkbox.checked = true;
+        checkbox.parentElement.classList.add('completed');
+        const event = new Event('change');
+        checkbox.dispatchEvent(event);
+    });
 }
 
 </script>
