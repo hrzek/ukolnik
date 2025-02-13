@@ -196,10 +196,13 @@ function restoreCheckboxState() {
 let dnesniDen = new Date().getDay();
 let ukoly = document.querySelectorAll("li[data-day]");
 ukoly.forEach(ukol => {
-let dny = ukol.getAttribute("data-day").split(",").map(Number);
-if (dny.includes(dnesniDen)) {
-ukol.classList.remove("hidden");
-}});
+    let dny = ukol.getAttribute("data-day").split(",").map(Number);
+    if (dny.includes(dnesniDen)) {
+        ukol.classList.remove("hidden"); // Zobrazí úkol pro aktuální den
+    } else {
+        ukol.classList.add("hidden"); // Skryje úkol pro jiné dny
+    }
+});
 </script>
 
 
