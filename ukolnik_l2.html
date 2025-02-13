@@ -163,12 +163,12 @@ updateDayHeader();
         checkboxStates[index] = checkbox.checked;
     });
 
-    localStorage.setItem("checkboxStates", JSON.stringify(checkboxStates));
+    localStorage.setItem("checkboxStates_page2", JSON.stringify(checkboxStates));
 }
 
 function restoreCheckboxState() {
     const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
-    let checkboxStates = JSON.parse(localStorage.getItem("checkboxStates")) || {};
+    let checkboxStates = JSON.parse(localStorage.getItem("checkboxStates_page2")) || {};
 
     checkboxes.forEach((checkbox, index) => {
         if (checkboxStates[index]) {
