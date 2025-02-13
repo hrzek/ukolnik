@@ -118,6 +118,81 @@ updateDayHeader();
 <label><li data-day="0" class="hidden"><input type="checkbox"> 21:00 - BI_kontrola procesu Výmaz PSA</li></label>
 </ul>
 
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const taskList = document.getElementById("taskList");
+
+    taskList.addEventListener("change", function (event) {
+        if (event.target && event.target.type === "checkbox") {
+            const taskName = event.target.parentElement.textContent.trim();
+            const userName = sessionStorage.getItem("loggedInUser") || "Neznámý uživatel";
+            const now = new Date();
+            const timestamp = now.toISOString(); 
+
+            let taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
+            
+            if (event.target.checked) {
+                taskLog.push({ user: userName, task: taskName, time: timestamp });
+                localStorage.setItem("taskLog", JSON.stringify(taskLog));
+                updateNotification(taskName, userName, now);
+            } else {
+                
+                taskLog = taskLog.filter(t => t.task !== taskName);
+                localStorage.setItem("taskLog", JSON.stringify(taskLog));
+                clearNotification();
+            }
+            
+            // Uložit stav checkboxů do localStorage
+            saveCheckboxState();
+        }
+    });
+
+    restoreCheckboxState();
+    restoreNotification();  
+});
+</script>
+  <script>
+    function saveCheckboxState() {
+    const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
+    let checkboxStates = {};
+    
+    checkboxes.forEach((checkbox, index) => {
+        checkboxStates[index] = checkbox.checked;
+    });
+
+    localStorage.setItem("checkboxStates", JSON.stringify(checkboxStates));
+}
+
+function restoreCheckboxState() {
+    const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
+    let checkboxStates = JSON.parse(localStorage.getItem("checkboxStates")) || {};
+
+    checkboxes.forEach((checkbox, index) => {
+        if (checkboxStates[index]) {
+            checkbox.checked = true;
+            checkbox.parentElement.classList.add("completed");
+        }
+    });
+}
+  </script>
+
+  <script>
+    function restoreNotification() {
+    let taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
+    if (taskLog.length > 0) {
+        let lastTask = taskLog[taskLog.length - 1]; // Poslední úkol
+        let time = new Date(lastTask.time).toLocaleTimeString("cs-CZ", { hour: "2-digit", minute: "2-digit" });
+        
+        updateNotification(lastTask.task, lastTask.user, time);
+    }
+}
+ript>
+
+
+
+
+  
 <script>
 let dnesniDen = new Date().getDay();
 let ukoly = document.querySelectorAll("li[data-day]");
@@ -133,7 +208,7 @@ ukol.classList.remove("hidden");
 function checkHighlighted() {
    document.querySelectorAll('.highlight input[type="checkbox"]').forEach(checkbox => {
        checkbox.checked = true;
-       checkbox.parentElement.classList.add('completed'); // Přidá třídu completed
+       checkbox.parentElement.classList.add('completed');
    });
 }
 
@@ -196,7 +271,7 @@ checkbox.parentElement.classList.remove('completed');
 <script>
 document.addEventListener("DOMContentLoaded", function () {
    const taskList = document.getElementById("taskList");
-   // Připojí event listener na celý seznam úkolů (delegace)
+  
    taskList.addEventListener("click", function (event) {
  
  if (event.target && event.target.type === "checkbox") {
@@ -235,14 +310,13 @@ document.addEventListener("DOMContentLoaded", function () {
             const now = new Date();
             const timestamp = now.toISOString(); // Uložíme datum a čas
 
-            // Pokud checkbox je zaškrtnutý, aktualizujeme notifikaci
+        
             if (event.target.checked) {
                 let taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
                 taskLog.push({ user: userName, task: taskName, time: timestamp });
                 localStorage.setItem("taskLog", JSON.stringify(taskLog));
                 updateNotification(taskName, userName, now);
             } else {
-                // Pokud checkbox není zaškrtnutý, vymaže se notifikace
                 clearNotification();
             }
         }
