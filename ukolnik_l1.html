@@ -32,13 +32,14 @@ window.history.back();
 
 
 <h1 id="dayHeader">Úkoly na #den</h1>
-<script>
+
  <script>
       if (sessionStorage.getItem("isLoggedIn") !== "true") {
     alert("Nemáte přístup. Přihlaste se.");
     window.location.href = "index.html";
 }
-
+        </script>
+  <script>
 const loggedInUser = sessionStorage.getItem("loggedInUser");
 document.getElementById("welcomeMessage").innerText = `Vítejte, ${loggedInUser}!`;
 
