@@ -28,9 +28,6 @@ background-attachment: fixed;
 
 }
 
-.hidden {
-  display: none;
-}
 
 #backButton {
 position: fixed;
