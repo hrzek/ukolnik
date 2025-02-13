@@ -195,14 +195,16 @@ function restoreCheckboxState() {
 <script>
 let dnesniDen = new Date().getDay();
 let ukoly = document.querySelectorAll("li[data-day]");
+let taskList = document.getElementById('taskList');
+taskList.innerHTML = ''; // Vymažeme všechny existující úkoly v seznamu
+
 ukoly.forEach(ukol => {
     let dny = ukol.getAttribute("data-day").split(",").map(Number);
     if (dny.includes(dnesniDen)) {
-        ukol.classList.remove("hidden"); // Zobrazí úkol pro aktuální den
-    } else {
-        ukol.classList.add("hidden"); // Skryje úkol pro jiné dny
+        taskList.appendChild(ukol); // Přidáme úkol pro aktuální den
     }
 });
+
 </script>
 
 
@@ -215,6 +217,7 @@ function checkHighlighted() {
         const event = new Event('change');
         checkbox.dispatchEvent(event);
     });
+    saveCheckboxState();
 }
 
 </script>
@@ -251,14 +254,17 @@ event.target.classList.toggle('completed');            }
 
 <script>
 function uncheckAll() {
-if (confirm("Opravu chcete vše odznačit?")) {
+    if (confirm("Opravu chcete vše odznačit?")) {
+        document.querySelectorAll('#taskList input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = false;
+            checkbox.parentElement.classList.remove('completed');
+        });
 
-document.querySelectorAll('#taskList input[type="checkbox"]').forEach(checkbox => {
-checkbox.checked = false;
-checkbox.parentElement.classList.remove('completed');
-});
+        // Po odznačení všeho uložíme nový stav checkboxů do localStorage
+        saveCheckboxState();
+    }
 }
-}
+
 </script>
 
 <script>
