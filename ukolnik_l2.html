@@ -228,13 +228,17 @@ function checkHighlighted() {
 </script>
 
 <script>
+       
+
 const taskList = document.getElementById('taskList');
-taskList.addEventListener('change', (event) => {
-if (event.target.type === 'checkbox') {
-const listItem = event.target.parentElement;
-listItem.classList.toggle('completed');
-}
-});
+       
+taskList.addEventListener('click', (event) => {
+           
+if (event.target.tagName === 'LI') {
+               
+event.target.classList.toggle('completed');            }
+       });
+
 </script>
 
 
