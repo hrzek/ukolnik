@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+
+<html lang="cs">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historie</title>
+
+<style>
+  
+     	body { font-family: Arial, sans-serif; margin: 20px; }
+      
+	table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+     
+  	th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+     
+ 	
+
+th { background-color: #f2f2f2; }
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Historie dokončených úkolů</h1>
+
+
+<button onclick="goBack()">Zpět</button>
+
+
+<button onclick="clearLog()">Vymazat historii</button>
+
+
+
+<script>
+function goBack() {
+window.history.back();
+}
+</script>
+
+
+
+
+
+<table>
+
+<thead>
+
+<tr>
+<th>Řešitel</th>
+<th>Úkol</th>
+
+<th>Čas</th>
+</tr>
+</thead>
+
+<tbody id="logTableBody"></tbody>
+
+</table>
+
+<script>
+      
+	 function loadLog() {
+           
+const logTableBody = document.getElementById("logTableBody");
+           
+const taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
+          
+ const now = new Date();
+          
+const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000); // 24 hodin zpět
+           
+
+logTableBody.innerHTML = ""; // Vyčistit tabulku
+           
+
+taskLog.forEach(entry => {
+               
+const taskTime = new Date(entry.time);
+               
+if (taskTime >= oneDayAgo) {
+                   
+const row = document.createElement("tr");
+                   
+row.innerHTML = `<td>${entry.user}</td><td>${entry.task}</td><td>${taskTime.toLocaleString("cs-CZ")}</td>`;
+                   logTableBody.appendChild(row);
+               
+}
+           
+});
+       
+}
+       
+
+
+document.addEventListener("DOMContentLoaded", loadLog);
+
+
+</script>
+
+
+
+<script>
+function clearLog() {
+if (confirm("Opravdu smazat historii??")) {
+localStorage.removeItem("taskLog");
+document.getElementById("logTableBody").innerHTML = "";
+
+}}
+</script>
+</body>
+
+</html>
