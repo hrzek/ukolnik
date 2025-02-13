@@ -204,7 +204,12 @@ ukoly.forEach(ukol => {
         taskList.appendChild(ukol); // Přidáme úkol pro aktuální den
     }
 });
-
+// event listener pro kliknutí na LI
+taskList.addEventListener('click', (event) => {
+    if (event.target.tagName === 'LI') {
+        event.target.classList.toggle('completed');            
+    }
+});
 </script>
 
 
