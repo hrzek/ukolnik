@@ -169,12 +169,12 @@ listItem.classList.toggle('completed');
         checkboxStates[index] = checkbox.checked;
     });
 
-    localStorage.setItem("checkboxStates", JSON.stringify(checkboxStates));
+    localStorage.setItem("checkboxStates_page1", JSON.stringify(checkboxStates));
 }
 
 function restoreCheckboxState() {
     const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
-    let checkboxStates = JSON.parse(localStorage.getItem("checkboxStates")) || {};
+    let checkboxStates = JSON.parse(localStorage.getItem("checkboxStates_page1")) || {};
 
     checkboxes.forEach((checkbox, index) => {
         if (checkboxStates[index]) {
