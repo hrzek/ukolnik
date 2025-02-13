@@ -239,11 +239,12 @@ event.target.classList.toggle('completed');            }
 
 <script>
 function uncheckAll() {
-    if (confirm("Opravu chcete vše odznačit?")) {
-        document.querySelectorAll('#taskList input[type="checkbox"]').forEach(checkbox => {
-            checkbox.checked = false;
-            checkbox.parentElement.classList.remove('completed');
-        });
+if (confirm("Opravu chcete vše odznačit?")) {
+
+document.querySelectorAll('#taskList input[type="checkbox"]').forEach(checkbox => {
+checkbox.checked = false;
+checkbox.parentElement.classList.remove('completed');
+});
 
         // Po odznačení všeho uložíme nový stav checkboxů do localStorage
         saveCheckboxState();
