@@ -128,7 +128,7 @@ updateDayHeader();
             const taskName = event.target.parentElement.textContent.trim();
             const userName = sessionStorage.getItem("loggedInUser") || "Neznámý uživatel";
             const now = new Date();
-            const timestamp = now.toISOString(); 
+            const timestamp = now.toISOString(); // Uložíme čas dokončení
 
             let taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
             
@@ -137,7 +137,7 @@ updateDayHeader();
                 localStorage.setItem("taskLog", JSON.stringify(taskLog));
                 updateNotification(taskName, userName, now);
             } else {
-                
+                // Pokud checkbox je odškrtnutý, odebereme jej z localStorage
                 taskLog = taskLog.filter(t => t.task !== taskName);
                 localStorage.setItem("taskLog", JSON.stringify(taskLog));
                 clearNotification();
@@ -148,10 +148,11 @@ updateDayHeader();
         }
     });
 
-    restoreCheckboxState();
-    restoreNotification();  
+    restoreCheckboxState(); // Při načtení stránky obnovíme checkboxy
+    restoreNotification();  // Obnovíme poslední notifikaci
 });
 </script>
+
   <script>
     function saveCheckboxState() {
     const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
@@ -176,19 +177,16 @@ function restoreCheckboxState() {
     });
 }
   </script>
-
   <script>
-    function restoreNotification() {
+   function restoreNotification() {
     let taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
     if (taskLog.length > 0) {
-        let lastTask = taskLog[taskLog.length - 1]; // Poslední úkol
+        let lastTask = taskLog[taskLog.length - 1];
         let time = new Date(lastTask.time).toLocaleTimeString("cs-CZ", { hour: "2-digit", minute: "2-digit" });
-        
         updateNotification(lastTask.task, lastTask.user, time);
     }
 }
-<script>
-
+  </script> 
 
 
 
