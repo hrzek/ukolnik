@@ -1,3 +1,4 @@
+
 ﻿<!DOCTYPE html>
 
 <html lang="en">
@@ -118,15 +119,7 @@ updateDayHeader();
 <label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 21:00 - Kontrola vlastních a týmových tiketů + předání kolegovi + epay zapsání odpovědí</li></label>
 <label><li data-day="0" class="hidden"><input type="checkbox"> 21:00 - BI_kontrola procesu Výmaz PSA</li></label>
 </ul>
-<script>
-function checkHighlighted() {
-   document.querySelectorAll('.highlight input[type="checkbox"]').forEach(checkbox => {
-       checkbox.checked = true;
-       checkbox.parentElement.classList.add('completed'); // Přidá třídu 'completed'
-   });
-}
 
-</script>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -212,23 +205,28 @@ ukoly.forEach(ukol => {
         taskList.appendChild(ukol); // Přidáme úkol pro aktuální den
     }
 });
-
-</script>
-  
-<script>
-  
- const taskList = document.getElementById('taskList');
-       
+// event listener pro kliknutí na LI
 taskList.addEventListener('click', (event) => {
-           
-if (event.target.tagName === 'LI') {
-               
-event.target.classList.toggle('completed');            }
-       });
-
+    if (event.target.tagName === 'LI') {
+        event.target.classList.toggle('completed');            
+    }
+});
 </script>
 
 
+<script>
+function checkHighlighted() {
+    document.querySelectorAll('.highlight input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = true;
+        checkbox.parentElement.classList.add('completed');
+      
+        const event = new Event('change');
+        checkbox.dispatchEvent(event);
+    });
+    saveCheckboxState();
+}
+
+</script>
 
 
 
@@ -239,12 +237,11 @@ event.target.classList.toggle('completed');            }
 
 <script>
 function uncheckAll() {
-if (confirm("Opravu chcete vše odznačit?")) {
-
-document.querySelectorAll('#taskList input[type="checkbox"]').forEach(checkbox => {
-checkbox.checked = false;
-checkbox.parentElement.classList.remove('completed');
-});
+    if (confirm("Opravu chcete vše odznačit?")) {
+        document.querySelectorAll('#taskList input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = false;
+            checkbox.parentElement.classList.remove('completed');
+        });
 
         // Po odznačení všeho uložíme nový stav checkboxů do localStorage
         saveCheckboxState();
