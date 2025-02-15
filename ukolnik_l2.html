@@ -114,7 +114,7 @@ updateDayHeader();
 <label><li data-day="1,2,3,4,5" class="hidden"><input type="checkbox"> 18:00 - PNS kontrola na IceWarp - zaslání avíz na email</li></label>
 <label><li data-day="1,2,3,4,5" class="hidden"><input type="checkbox"> 18:40 - PNS - kontrola SAP složky pro PNS</li></label>
 <label><li data-day="1,2,3,4,5" class="hidden"><input type="checkbox"> 19:00 - Kontrola zpracování avíz PNS v SAP</li></label>
-<label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 19:00 - Kontrola rolet a trezorů v Aktionu</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 20:00 - Kontrola rolet a trezorů v Aktionu</li></label>
 <label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 21:00 - Kontrola vlastních a týmových tiketů + předání kolegovi + epay zapsání odpovědí</li></label>
 <label><li data-day="0" class="hidden"><input type="checkbox"> 21:00 - BI_kontrola procesu Výmaz PSA</li></label>
 </ul>
@@ -216,9 +216,9 @@ taskList.addEventListener('click', (event) => {
 <script>
 function checkHighlighted() {
     document.querySelectorAll('.highlight input[type="checkbox"]').forEach(checkbox => {
-        // Zaškrtnutí checkboxu
         checkbox.checked = true;
         checkbox.parentElement.classList.add('completed');
+      
         const event = new Event('change');
         checkbox.dispatchEvent(event);
     });
@@ -241,20 +241,6 @@ event.target.classList.toggle('completed');            }
 
 </script>
 
-
-<script>
-       
-
-const taskList = document.getElementById('taskList');
-       
-taskList.addEventListener('click', (event) => {
-           
-if (event.target.tagName === 'LI') {
-               
-event.target.classList.toggle('completed');            }
-       });
-
-</script>
 
 <button onclick="checkHighlighted()">Ranní kontrola</button>
 <button onclick="uncheckAll()">Odznačit vše</button>
