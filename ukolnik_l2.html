@@ -114,7 +114,7 @@ updateDayHeader();
 <label><li data-day="1,2,3,4,5" class="hidden"><input type="checkbox"> 18:00 - PNS kontrola na IceWarp - zaslání avíz na email</li></label>
 <label><li data-day="1,2,3,4,5" class="hidden"><input type="checkbox"> 18:40 - PNS - kontrola SAP složky pro PNS</li></label>
 <label><li data-day="1,2,3,4,5" class="hidden"><input type="checkbox"> 19:00 - Kontrola zpracování avíz PNS v SAP</li></label>
-<label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 19:00 - Kontrola rolet a trezorů v Aktionu</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 20:00 - Kontrola rolet a trezorů v Aktionu</li></label>
 <label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 21:00 - Kontrola vlastních a týmových tiketů + předání kolegovi + epay zapsání odpovědí</li></label>
 <label><li data-day="0" class="hidden"><input type="checkbox"> 21:00 - BI_kontrola procesu Výmaz PSA</li></label>
 </ul>
@@ -122,12 +122,17 @@ updateDayHeader();
 <script>
 let dnesniDen = new Date().getDay();
 let ukoly = document.querySelectorAll("li[data-day]");
+
 ukoly.forEach(ukol => {
-let dny = ukol.getAttribute("data-day").split(",").map(Number);
-if (dny.includes(dnesniDen)) {
-ukol.classList.remove("hidden");
-}});
+    let dny = ukol.getAttribute("data-day").split(",").map(Number);
+    if (dny.length === 1 && dny[0] === dnesniDen) { // Zkontroluje, jestli je úkol pro dnešek
+        ukol.classList.remove("hidden"); // Pokud je úkol pro dnešek, zůstane zobrazený
+    } else {
+        ukol.remove(); // Pokud úkol není pro dnešek, odstraní ho z DOM
+    }
+});
 </script>
+
 
 
 <script>
