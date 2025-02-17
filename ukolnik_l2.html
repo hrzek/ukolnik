@@ -123,14 +123,19 @@ updateDayHeader();
 let dnesniDen = new Date().getDay();
 let ukoly = document.querySelectorAll("li[data-day]");
 
+<script>
+let dnesniDen = new Date().getDay();
+let ukoly = document.querySelectorAll("li[data-day]");
+let taskList = document.getElementById('taskList');
+taskList.innerHTML = ''; // Vymažeme všechny existující úkoly v seznamu
+
 ukoly.forEach(ukol => {
     let dny = ukol.getAttribute("data-day").split(",").map(Number);
-    if (dny.length === 1 && dny[0] === dnesniDen) { // Zkontroluje, jestli je úkol pro dnešek
-        ukol.classList.remove("hidden"); // Pokud je úkol pro dnešek, zůstane zobrazený
-    } else {
-        ukol.remove(); // Pokud úkol není pro dnešek, odstraní ho z DOM
+    if (dny.includes(dnesniDen)) {
+        taskList.appendChild(ukol); // Přidáme úkol pro aktuální den
     }
 });
+
 </script>
 
 
