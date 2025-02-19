@@ -119,9 +119,6 @@ updateDayHeader();
 <label><li data-day="0" class="hidden"><input type="checkbox"> 21:00 - BI_kontrola procesu Výmaz PSA</li></label>
 </ul>
 
-<script>
-let dnesniDen = new Date().getDay();
-let ukoly = document.querySelectorAll("li[data-day]");
 
 <script>
 let dnesniDen = new Date().getDay();
@@ -182,14 +179,17 @@ event.target.classList.toggle('completed');            }
 
 <script>
 function uncheckAll() {
-if (confirm("Opravu chcete vše odznačit?")) {
+    if (confirm("Opravu chcete vše odznačit?")) {
+        document.querySelectorAll('#taskList input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = false;
+            checkbox.parentElement.classList.remove('completed');
+        });
 
-document.querySelectorAll('#taskList input[type="checkbox"]').forEach(checkbox => {
-checkbox.checked = false;
-checkbox.parentElement.classList.remove('completed');
-});
+        // Po odznačení všeho uložíme nový stav checkboxů do localStorage
+        saveCheckboxState();
+    }
 }
-}
+
 </script>
 
 <script>
