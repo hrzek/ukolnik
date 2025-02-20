@@ -137,16 +137,16 @@ listItem.classList.toggle('completed');
             const now = new Date();
             const timestamp = now.toISOString(); // Uložíme čas dokončení
 
-            let taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
+            let taskLog = JSON.parse(sessionStorage.getItem("taskLog")) || [];
             
             if (event.target.checked) {
                 taskLog.push({ user: userName, task: taskName, time: timestamp });
-                localStorage.setItem("taskLog", JSON.stringify(taskLog));
+                sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
                 updateNotification(taskName, userName, now);
             } else {
                 // Pokud checkbox je odškrtnutý, odebereme jej z localStorage
                 taskLog = taskLog.filter(t => t.task !== taskName);
-                localStorage.setItem("taskLog", JSON.stringify(taskLog));
+                sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
                 clearNotification();
             }
             
