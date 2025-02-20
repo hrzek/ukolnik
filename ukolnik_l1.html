@@ -146,13 +146,13 @@ listItem.classList.toggle('completed');
                 sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
                 updateNotification(taskName, userName, now);
             } else {
-               
+                // Pokud checkbox je odškrtnutý, odebereme jej z localStorage
                 taskLog = taskLog.filter(t => t.task !== taskName);
                 sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
                 clearNotification();
             }
             
-           
+            // Uložit stav checkboxů do localStorage
             saveCheckboxState();
         }
     });
@@ -205,7 +205,7 @@ function uncheckAll() {
             checkbox.parentElement.classList.remove('completed');
         });
 
-       
+        // Po odznačení všeho uložíme nový stav checkboxů do localStorage
         saveCheckboxState();
     }
 }
@@ -270,7 +270,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (event.target.checked) {
                 let taskLog = JSON.parse(sessionStorage.getItem("taskLog")) || [];
                 taskLog.push({ user: userName, task: taskName, time: timestamp });
-                sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
+                localStorage.setItem("taskLog", JSON.stringify(taskLog));
                 updateNotification(taskName, userName, now);
             } else {
                 // Pokud checkbox není zaškrtnutý, vymažeme notifikaci
