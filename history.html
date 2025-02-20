@@ -73,7 +73,7 @@ window.history.back();
            
 const logTableBody = document.getElementById("logTableBody");
            
-const taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
+const taskLog = JSON.parse(sessionStorage.getItem("taskLog")) || [];
           
  const now = new Date();
           
@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", loadLog);
 <script>
 function clearLog() {
 if (confirm("Opravdu smazat historii??")) {
-localStorage.removeItem("taskLog");
+sessionStorage.removeItem("taskLog");
 document.getElementById("logTableBody").innerHTML = "";
 
 }}
