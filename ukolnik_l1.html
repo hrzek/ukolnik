@@ -146,13 +146,13 @@ listItem.classList.toggle('completed');
                 sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
                 updateNotification(taskName, userName, now);
             } else {
-                // Pokud checkbox je odškrtnutý, odebereme jej z localStorage
+               
                 taskLog = taskLog.filter(t => t.task !== taskName);
                 sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
                 clearNotification();
             }
             
-            // Uložit stav checkboxů do localStorage
+           
             saveCheckboxState();
         }
     });
@@ -171,7 +171,7 @@ listItem.classList.toggle('completed');
         checkboxStates[index] = checkbox.checked;
     });
 
-    localStorage.setItem("checkboxStates_page1", JSON.stringify(checkboxStates));
+    sessionStorage.setItem("checkboxStates_page1", JSON.stringify(checkboxStates));
 }
 
 function restoreCheckboxState() {
