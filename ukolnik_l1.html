@@ -17,14 +17,6 @@
 
 
 <body>
-
-  <script>
-setInterval(() => {
-   
-location.reload();
-}, 300); // Každých 30 sekund se stránka obnoví
-
-</script>
 <div id="notificationBar"></div>
 
 
@@ -49,7 +41,6 @@ window.history.back();
         </script>
   <script>
 const loggedInUser = sessionStorage.getItem("loggedInUser");
-document.getElementById("welcomeMessage").innerText = `Vítejte, ${loggedInUser}!`;
 
 function logout() {
     sessionStorage.removeItem("isLoggedIn");
@@ -154,13 +145,13 @@ listItem.classList.toggle('completed');
                 sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
                 updateNotification(taskName, userName, now);
             } else {
-                // Pokud checkbox je odškrtnutý, odebereme jej z localStorage
+                // Pokud checkbox je odškrtnutý, odebereme jej
                 taskLog = taskLog.filter(t => t.task !== taskName);
                 sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
                 clearNotification();
             }
             
-            // Uložit stav checkboxů do localStorage
+          
             saveCheckboxState();
         }
     });
@@ -179,12 +170,12 @@ listItem.classList.toggle('completed');
         checkboxStates[index] = checkbox.checked;
     });
 
-    sessionStorage.setItem("checkboxStates_page1", JSON.stringify(checkboxStates));
+    localStorage.setItem("checkboxStates_page1", JSON.stringify(checkboxStates));
 }
 
 function restoreCheckboxState() {
     const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
-    let checkboxStates = JSON.parse(sessionStorage.getItem("checkboxStates_page1")) || {};
+    let checkboxStates = JSON.parse(localStorage.getItem("checkboxStates_page1")) || {};
 
     checkboxes.forEach((checkbox, index) => {
         if (checkboxStates[index]) {
@@ -213,7 +204,7 @@ function uncheckAll() {
             checkbox.parentElement.classList.remove('completed');
         });
 
-        // Po odznačení všeho uložíme nový stav checkboxů do localStorage
+        // Po odznačení všeho uložím nový stav checkboxů
         saveCheckboxState();
     }
 }
@@ -222,7 +213,7 @@ function uncheckAll() {
 
 <script>
     function logout() {
-        sessionStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("isLoggedIn");
         window.location.href = "index.html";
     }
  function handleEnter(event) {
@@ -276,9 +267,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Pokud checkbox je zaškrtnutý, aktualizujeme notifikaci
             if (event.target.checked) {
-                let taskLog = JSON.parse(sessionStorage.getItem("taskLog")) || [];
+                let taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
                 taskLog.push({ user: userName, task: taskName, time: timestamp });
-                sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
+                localStorage.setItem("taskLog", JSON.stringify(taskLog));
                 updateNotification(taskName, userName, now);
             } else {
                 // Pokud checkbox není zaškrtnutý, vymažeme notifikaci
