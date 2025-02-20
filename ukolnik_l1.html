@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en">
 
@@ -126,6 +126,8 @@ listItem.classList.toggle('completed');
 <button id="odznac" onclick="uncheckAll()">Odznačit vše</button>
 <button id= "logout" onclick="logout()">Odhlásit se</button>
 <button id="history" onclick="window.location.href='history.html'">Zobrazit historii</button>
+
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const taskList = document.getElementById("taskList");
@@ -174,7 +176,7 @@ listItem.classList.toggle('completed');
 
 function restoreCheckboxState() {
     const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
-    let checkboxStates = JSON.parse(localStorage.getItem("checkboxStates_page1")) || {};
+    let checkboxStates = JSON.parse(sessionStorage.getItem("checkboxStates_page1")) || {};
 
     checkboxes.forEach((checkbox, index) => {
         if (checkboxStates[index]) {
@@ -186,7 +188,7 @@ function restoreCheckboxState() {
   </script>
   <script>
    function restoreNotification() {
-    let taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
+    let taskLog = JSON.parse(sessionStorage.getItem("taskLog")) || [];
     if (taskLog.length > 0) {
         let lastTask = taskLog[taskLog.length - 1];
         let time = new Date(lastTask.time).toLocaleTimeString("cs-CZ", { hour: "2-digit", minute: "2-digit" });
@@ -203,7 +205,7 @@ function uncheckAll() {
             checkbox.parentElement.classList.remove('completed');
         });
 
-        // Po odznačení všeho uložíme nový stav checkboxů do localStorage
+       
         saveCheckboxState();
     }
 }
@@ -212,7 +214,7 @@ function uncheckAll() {
 
 <script>
     function logout() {
-        localStorage.removeItem("isLoggedIn");
+        sessionStorage.removeItem("isLoggedIn");
         window.location.href = "index.html";
     }
  function handleEnter(event) {
@@ -266,9 +268,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Pokud checkbox je zaškrtnutý, aktualizujeme notifikaci
             if (event.target.checked) {
-                let taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
+                let taskLog = JSON.parse(sessionStorage.getItem("taskLog")) || [];
                 taskLog.push({ user: userName, task: taskName, time: timestamp });
-                localStorage.setItem("taskLog", JSON.stringify(taskLog));
+                sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
                 updateNotification(taskName, userName, now);
             } else {
                 // Pokud checkbox není zaškrtnutý, vymažeme notifikaci
