@@ -139,10 +139,17 @@ listItem.classList.toggle('completed');
 
             let taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
             
-            if (event.target.checked) {
-                taskLog.push({ user: userName, task: taskName, time: timestamp });
-                localStorage.setItem("taskLog", JSON.stringify(taskLog));
-                updateNotification(taskName, userName, now);
+      if (event.target.checked) {
+      let taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
+    
+    // Zkontrolujeme, zda úkol už není v logu
+    const existingTaskIndex = taskLog.findIndex(t => t.task === taskName && t.user === userName);
+    if (existingTaskIndex === -1) {
+        // Pokud úkol není v logu, přidáme ho
+        taskLog.push({ user: userName, task: taskName, time: timestamp });
+        localStorage.setItem("taskLog", JSON.stringify(taskLog));
+    }
+}
             } else {
                 // Pokud checkbox je odškrtnutý, odebereme jej z localStorage
                 taskLog = taskLog.filter(t => t.task !== taskName);
