@@ -270,7 +270,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (event.target.checked) {
                 let taskLog = JSON.parse(sessionStorage.getItem("taskLog")) || [];
                 taskLog.push({ user: userName, task: taskName, time: timestamp });
-                localStorage.setItem("taskLog", JSON.stringify(taskLog));
+                sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
                 updateNotification(taskName, userName, now);
             } else {
                 // Pokud checkbox není zaškrtnutý, vymažeme notifikaci
