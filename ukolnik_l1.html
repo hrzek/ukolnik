@@ -197,14 +197,17 @@ function restoreCheckboxState() {
 
 <script>
 function uncheckAll() {
-if (confirm("Opravu chcete vše odznačit?")) {
+    if (confirm("Opravu chcete vše odznačit?")) {
+        document.querySelectorAll('#taskList input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = false;
+            checkbox.parentElement.classList.remove('completed');
+        });
 
-document.querySelectorAll('#taskList input[type="checkbox"]').forEach(checkbox => {
-checkbox.checked = false;
-checkbox.parentElement.classList.remove('completed');
-});
+        // Po odznačení všeho uložíme nový stav checkboxů do localStorage
+        saveCheckboxState();
+    }
 }
-}
+
 </script>
 
 <script>
