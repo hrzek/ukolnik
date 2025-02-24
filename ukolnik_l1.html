@@ -23,14 +23,11 @@
 <button id="backButton" onclick="goBack()"> Zpět</button>
 
 <script type="module">
-  // Import the functions you need from the SDKs you need
+  // Import funkcí pro Firebase
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
 
-
-  // Your web app's Firebase configuration
-
+  // Konfigurace Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyC1f2QCqhstimqyfIs1IGZZjYtJiO81Gtc",
     authDomain: "ukolnik-4a935.firebaseapp.com",
@@ -42,10 +39,47 @@
     measurementId: "G-KZTCTHYJTW"
   };
 
-  // Initialize Firebase
+  // Inicializace Firebase
   const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+  const db = getDatabase(app); // Získání databáze
+
+  // Funkce pro uložení stavu checkboxů
+  function saveCheckboxState() {
+    const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
+    let checkboxStates = {};
+    checkboxes.forEach((checkbox, index) => {
+      checkboxStates[index] = checkbox.checked;
+    });
+    localStorage.setItem("checkboxStates_page1", JSON.stringify(checkboxStates));
+  }
+
+  // Funkce pro obnovu stavu checkboxů
+  function restoreCheckboxState() {
+    const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
+    let checkboxStates = JSON.parse(localStorage.getItem("checkboxStates_page1")) || {};
+    checkboxes.forEach((checkbox, index) => {
+      if (checkboxStates[index]) {
+        checkbox.checked = true;
+        checkbox.parentElement.classList.add("completed");
+      }
+    });
+  }
+
+  // Načtení stavu checkboxů po načtení stránky
+  document.addEventListener("DOMContentLoaded", function () {
+    restoreCheckboxState();
+
+    const taskList = document.getElementById("taskList");
+    taskList.addEventListener("change", function (event) {
+      if (event.target.type === "checkbox") {
+        const listItem = event.target.parentElement;
+        listItem.classList.toggle("completed");
+        saveCheckboxState();
+      }
+    });
+  });
 </script>
+
 <script>
 function goBack() {
 window.history.back();
