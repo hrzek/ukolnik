@@ -3,8 +3,6 @@
 <html lang="en">
 
 <head>
-<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="Štěpán Hrzán">
@@ -298,28 +296,6 @@ function clearNotification() {
 }
 </script>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const taskList = document.getElementById("taskList");
-
-    // Načtení stavu checkboxů při načtení stránky
-    firebase.database().ref("tasks").on("value", (snapshot) => {
-        const data = snapshot.val();
-        document.querySelectorAll("#taskList input[type='checkbox']").forEach((checkbox, index) => {
-            checkbox.checked = data?.[index] || false;
-        });
-    });
-
-    // Uložení stavu checkboxů do Firebase při změně
-    taskList.addEventListener("change", function (event) {
-        if (event.target.type === "checkbox") {
-            const checkboxes = Array.from(document.querySelectorAll("#taskList input[type='checkbox']"))
-                .map(checkbox => checkbox.checked);
-            firebase.database().ref("tasks").set(checkboxes);
-        }
-    });
-  });
-</script>
 
   
 <script type="module">
@@ -345,6 +321,48 @@ function clearNotification() {
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
+
+    function saveCheckboxState() {
+    const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
+    let checkboxStates = {};
+
+    checkboxes.forEach((checkbox, index) => {
+      checkboxStates[index] = checkbox.checked;
+    });
+
+    set(ref(db, "tasks"), checkboxStates)
+      .then(() => console.log("🔥 Stav checkboxů uložen do Firebase"))
+      .catch((error) => console.error("❌ Chyba při ukládání:", error));
+  }
+
+  // ✅ Funkce pro načítání checkboxů z Firebase
+  function restoreCheckboxState() {
+    const taskRef = ref(db, "tasks");
+    
+    onValue(taskRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        document.querySelectorAll("#taskList input[type='checkbox']").forEach((checkbox, index) => {
+          checkbox.checked = data[index] || false;
+        });
+      }
+    });
+  }
+
+  // ✅ Přidání event listeneru pro změny v checkboxech
+  document.addEventListener("DOMContentLoaded", function () {
+    const taskList = document.getElementById("taskList");
+
+    // Načtení stavu checkboxů při načtení stránky
+    restoreCheckboxState();
+
+    // Uložení stavu checkboxů při změně
+    taskList.addEventListener("change", function (event) {
+      if (event.target.type === "checkbox") {
+        saveCheckboxState();
+      }
+    });
+  });
 </script>
 </body>
 </html>
