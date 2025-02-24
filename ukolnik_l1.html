@@ -3,83 +3,78 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="author" content="Štěpán Hrzán">
-<link rel="stylesheet" href="styles_l1.css"> 
-
-  
-<title>Úkolníček Helpdesk L1</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Štěpán Hrzán">
+    <link rel="stylesheet" href="styles_l1.css">
+    <title>Úkolníček Helpdesk L1</title>
 </head>
 
-
-
-
 <body>
-<div id="notificationBar"></div>
+    <div id="notificationBar"></div>
+    <button id="backButton" onclick="goBack()"> Zpět</button>
 
+    <!-- Firebase Script - Na začátku těla HTML -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
 
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyC1f2QCqhstimqyfIs1IGZZjYtJiO81Gtc",
+            authDomain: "ukolnik-4a935.firebaseapp.com",
+            databaseURL: "https://ukolnik-4a935-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "ukolnik-4a935",
+            storageBucket: "ukolnik-4a935.firebasestorage.app",
+            messagingSenderId: "956758246085",
+            appId: "1:956758246085:web:65e49cac38b0210658e6ac",
+            measurementId: "G-KZTCTHYJTW"
+        };
 
-<button id="backButton" onclick="goBack()"> Zpět</button>
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app); // Získání databáze Firebase
+    </script>
 
-<script type="module">
-  // Import funkcí pro Firebase
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
+    <!-- Další skripty, které používají Firebase -->
+    <script>
+        // Funkce pro uložení stavu checkboxů
+        function saveCheckboxState() {
+            const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
+            let checkboxStates = {};
+            checkboxes.forEach((checkbox, index) => {
+                checkboxStates[index] = checkbox.checked;
+            });
+            localStorage.setItem("checkboxStates_page1", JSON.stringify(checkboxStates));
+        }
 
-  // Konfigurace Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyC1f2QCqhstimqyfIs1IGZZjYtJiO81Gtc",
-    authDomain: "ukolnik-4a935.firebaseapp.com",
-    databaseURL: "https://ukolnik-4a935-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "ukolnik-4a935",
-    storageBucket: "ukolnik-4a935.firebasestorage.app",
-    messagingSenderId: "956758246085",
-    appId: "1:956758246085:web:65e49cac38b0210658e6ac",
-    measurementId: "G-KZTCTHYJTW"
-  };
+        // Funkce pro obnovu stavu checkboxů
+        function restoreCheckboxState() {
+            const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
+            let checkboxStates = JSON.parse(localStorage.getItem("checkboxStates_page1")) || {};
+            checkboxes.forEach((checkbox, index) => {
+                if (checkboxStates[index]) {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add("completed");
+                }
+            });
+        }
 
-  // Inicializace Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app); // Získání databáze
+        // Načtení stavu checkboxů po načtení stránky
+        document.addEventListener("DOMContentLoaded", function () {
+            restoreCheckboxState();
 
-  // Funkce pro uložení stavu checkboxů
-  function saveCheckboxState() {
-    const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
-    let checkboxStates = {};
-    checkboxes.forEach((checkbox, index) => {
-      checkboxStates[index] = checkbox.checked;
-    });
-    localStorage.setItem("checkboxStates_page1", JSON.stringify(checkboxStates));
-  }
-
-  // Funkce pro obnovu stavu checkboxů
-  function restoreCheckboxState() {
-    const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
-    let checkboxStates = JSON.parse(localStorage.getItem("checkboxStates_page1")) || {};
-    checkboxes.forEach((checkbox, index) => {
-      if (checkboxStates[index]) {
-        checkbox.checked = true;
-        checkbox.parentElement.classList.add("completed");
-      }
-    });
-  }
-
-  // Načtení stavu checkboxů po načtení stránky
-  document.addEventListener("DOMContentLoaded", function () {
-    restoreCheckboxState();
-
-    const taskList = document.getElementById("taskList");
-    taskList.addEventListener("change", function (event) {
-      if (event.target.type === "checkbox") {
-        const listItem = event.target.parentElement;
-        listItem.classList.toggle("completed");
-        saveCheckboxState();
-      }
-    });
-  });
-</script>
-
+            const taskList = document.getElementById("taskList");
+            taskList.addEventListener("change", function (event) {
+                if (event.target.type === "checkbox") {
+                    const listItem = event.target.parentElement;
+                    listItem.classList.toggle("completed");
+                    saveCheckboxState();
+                }
+            });
+        });
+    </script>
 <script>
 function goBack() {
 window.history.back();
