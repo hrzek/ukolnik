@@ -14,13 +14,12 @@
     <div id="notificationBar"></div>
     <button id="backButton" onclick="goBack()"> Zpět</button>
 
-    <!-- Firebase Script - Na začátku těla HTML -->
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
-        
-        // Firebase configuration
+    <!-- Načítání Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js"></script>
+
+    <script>
+        // Firebase konfigurace
         const firebaseConfig = {
             apiKey: "AIzaSyC1f2QCqhstimqyfIs1IGZZjYtJiO81Gtc",
             authDomain: "ukolnik-4a935.firebaseapp.com",
@@ -32,9 +31,20 @@
             measurementId: "G-KZTCTHYJTW"
         };
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig); // Inicializace Firebase
-        const db = getDatabase(app); // Získání databáze Firebase
+        // Inicializace Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.database(app);  // Získání databáze
+
+        // Testování: Zapisování dat do databáze Firebase
+        const dbRef = db.ref("tasks");
+        dbRef.set({
+            task1: "Otevření prodejny",
+            task2: "Kontrola zařízení",
+        }).then(() => {
+            console.log("Data byla úspěšně zapsána do Firebase");
+        }).catch((error) => {
+            console.error("Chyba při zápisu dat do Firebase:", error);
+        });
     </script>
 
     <!-- Další skripty, které používají Firebase -->
