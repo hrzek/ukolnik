@@ -3,88 +3,26 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Štěpán Hrzán">
-    <link rel="stylesheet" href="styles_l1.css">
-    <title>Úkolníček Helpdesk L1</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Štěpán Hrzán">
+<link rel="stylesheet" href="styles_l1.css"> 
+
+  
+<title>Úkolníček Helpdesk L1</title>
 </head>
 
+
+
+
 <body>
-    <div id="notificationBar"></div>
-    <button id="backButton" onclick="goBack()"> Zpět</button>
+<div id="notificationBar"></div>
 
-    <!-- Načítání Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js"></script>
 
-    <script>
-        // Firebase konfigurace
-        const firebaseConfig = {
-            apiKey: "AIzaSyC1f2QCqhstimqyfIs1IGZZjYtJiO81Gtc",
-            authDomain: "ukolnik-4a935.firebaseapp.com",
-            databaseURL: "https://ukolnik-4a935-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "ukolnik-4a935",
-            storageBucket: "ukolnik-4a935.firebasestorage.app",
-            messagingSenderId: "956758246085",
-            appId: "1:956758246085:web:65e49cac38b0210658e6ac",
-            measurementId: "G-KZTCTHYJTW"
-        };
 
-        // Inicializace Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.database(app);  // Získání databáze
+<button id="backButton" onclick="goBack()"> Zpět</button>
 
-        // Testování: Zapisování dat do databáze Firebase
-        const dbRef = db.ref("tasks");
-        dbRef.set({
-            task1: "Otevření prodejny",
-            task2: "Kontrola zařízení",
-        }).then(() => {
-            console.log("Data byla úspěšně zapsána do Firebase");
-        }).catch((error) => {
-            console.error("Chyba při zápisu dat do Firebase:", error);
-        });
-    </script>
-
-    <!-- Další skripty, které používají Firebase -->
-    <script>
-        // Funkce pro uložení stavu checkboxů
-        function saveCheckboxState() {
-            const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
-            let checkboxStates = {};
-            checkboxes.forEach((checkbox, index) => {
-                checkboxStates[index] = checkbox.checked;
-            });
-            localStorage.setItem("checkboxStates_page1", JSON.stringify(checkboxStates));
-        }
-
-        // Funkce pro obnovu stavu checkboxů
-        function restoreCheckboxState() {
-            const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
-            let checkboxStates = JSON.parse(localStorage.getItem("checkboxStates_page1")) || {};
-            checkboxes.forEach((checkbox, index) => {
-                if (checkboxStates[index]) {
-                    checkbox.checked = true;
-                    checkbox.parentElement.classList.add("completed");
-                }
-            });
-        }
-
-        // Načtení stavu checkboxů po načtení stránky
-        document.addEventListener("DOMContentLoaded", function () {
-            restoreCheckboxState();
-
-            const taskList = document.getElementById("taskList");
-            taskList.addEventListener("change", function (event) {
-                if (event.target.type === "checkbox") {
-                    const listItem = event.target.parentElement;
-                    listItem.classList.toggle("completed");
-                    saveCheckboxState();
-                }
-            });
-        });
-    </script>
 
 <script>
 function goBack() {
@@ -360,7 +298,7 @@ function clearNotification() {
 </script>
 
 
-  
 
+  
 </body>
 </html>
