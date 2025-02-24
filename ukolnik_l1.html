@@ -297,8 +297,53 @@ function clearNotification() {
 }
 </script>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const taskList = document.getElementById("taskList");
 
+    // Načtení stavu checkboxů při načtení stránky
+    firebase.database().ref("tasks").on("value", (snapshot) => {
+        const data = snapshot.val();
+        document.querySelectorAll("#taskList input[type='checkbox']").forEach((checkbox, index) => {
+            checkbox.checked = data?.[index] || false;
+        });
+    });
+
+    // Uložení stavu checkboxů do Firebase při změně
+    taskList.addEventListener("change", function (event) {
+        if (event.target.type === "checkbox") {
+            const checkboxes = Array.from(document.querySelectorAll("#taskList input[type='checkbox']"))
+                .map(checkbox => checkbox.checked);
+            firebase.database().ref("tasks").set(checkboxes);
+        }
+    });
+  });
+</script>
 
   
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC1f2QCqhstimqyfIs1IGZZjYtJiO81Gtc",
+    authDomain: "ukolnik-4a935.firebaseapp.com",
+    databaseURL: "https://ukolnik-4a935-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "ukolnik-4a935",
+    storageBucket: "ukolnik-4a935.firebasestorage.app",
+    messagingSenderId: "956758246085",
+    appId: "1:956758246085:web:65e49cac38b0210658e6ac",
+    measurementId: "G-KZTCTHYJTW"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
 </body>
 </html>
