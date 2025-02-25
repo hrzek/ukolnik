@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en">
 
@@ -7,18 +7,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="Štěpán Hrzán">
-  
+<link rel="stylesheet" href="styles_l2.css"> 
 
-<title>Úkolníček Helpdesk L2</title>
-<link rel="stylesheet" href="styles_l2.css">
+  
+<title>Úkolníček Helpdesk L1</title>
 </head>
 
 
+
+
 <body>
-<button id="backButton" onclick="goBack()"> Zpět</button>
 <div id="notificationBar"></div>
 
 
+
+<button id="backButton" onclick="goBack()"> Zpět</button>
 
 
 <script>
@@ -38,7 +41,7 @@ window.history.back();
         </script>
   <script>
 const loggedInUser = sessionStorage.getItem("loggedInUser");
-document.getElementById("welcomeMessage").innerText = `Vítejte, ${loggedInUser}!`;
+
 
 function logout() {
     sessionStorage.removeItem("isLoggedIn");
@@ -94,6 +97,7 @@ updateDayHeader();
 <label><li data-day="0,1,2,3,4,5,6" class="highlight hidden"><input type="checkbox"> 5:30 - kontrola iDoců - statusy -> nastavit rozsah min. 5 dní zpět. BD87</li></label>
 <label><li data-day="0,1,2,3,4,5,6" class="highlight hidden"><input type="checkbox"> 5:30 - Zpracování Bio certifikátů pro LMS</li></label>
 <label><li data-day="0,1,2,3,4,5,6" class="highlight hidden"><input type="checkbox"> 6:00 - Kontrola chyb e-shopů v SAP JTI</li></label>
+<label><li data-day="0,1,2,3,4,5,6" class="highlight hidden"><input type="checkbox"> 6:00 - Kontrola automatických závozů zboží pro eshopy v SAP</li></label>
 <label><li data-day="0,1,2,3,4,5,6" class="highlight hidden"><input type="checkbox"> 6:00 - Infina - kontrola nočních importů</li></label>
 <label><li data-day="0,1,2,3,4,5,6" class="highlight hidden"><input type="checkbox"> 6:00 - Kontrola automatických závozů zboží pro eshopy v SAP</li></label>
 <label><li data-day="0,1,2,3,4,5,6" class="hidden"><input type="checkbox"> 7:00 - Kontrola průběhu procesu Logistika CZ</li></label>
@@ -119,7 +123,6 @@ updateDayHeader();
 <label><li data-day="0" class="hidden"><input type="checkbox"> 21:00 - BI_kontrola procesu Výmaz PSA</li></label>
 </ul>
 
-
 <script>
 let dnesniDen = new Date().getDay();
 let ukoly = document.querySelectorAll("li[data-day]");
@@ -133,7 +136,167 @@ ukoly.forEach(ukol => {
     }
 });
 
+// Přiřadíme event listener pro kliknutí na celé `li`, aby se checkbox přepnul
+let listItems = document.querySelectorAll("li");
+listItems.forEach(item => {
+    item.addEventListener('click', (event) => {
+        // Pokud bylo kliknuto na checkbox, nic nedělej, protože to už bude mít účinek
+        if (event.target.type === 'checkbox') {
+            return;
+        }
+
+        // Najdeme checkbox v rámci tohoto `li` a přepneme jeho stav
+        let checkbox = item.querySelector("input[type='checkbox']");
+        if (checkbox) {
+            checkbox.checked = !checkbox.checked;
+        }
+
+        // Přepneme třídu "completed" pro označení stavu
+        item.classList.toggle('completed');
+
+        // Zapsání úkolu do historie a sessionStorage
+        const taskName = item.textContent.trim();
+        const userName = sessionStorage.getItem("loggedInUser") || "Neznámý uživatel";
+        const now = new Date();
+        const timestamp = now.toISOString(); // Uložíme čas dokončení
+
+        let taskLog = JSON.parse(sessionStorage.getItem("taskLog")) || [];
+        
+        // Uložíme úkol do historie, i když je odškrtutý (ale neoznačíme ho jako "completed")
+        const existingTaskIndex = taskLog.findIndex(t => t.task === taskName && t.user === userName);
+
+        if (checkbox.checked) {
+            // Pokud je úkol označený, přidáme ho do historie (pokud ještě není)
+            if (existingTaskIndex === -1) {
+                taskLog.push({ user: userName, task: taskName, time: timestamp, completed: true });
+            } else {
+                taskLog[existingTaskIndex].completed = true; // Aktualizujeme stav na "completed"
+                taskLog[existingTaskIndex].time = timestamp; // Přepíšeme čas
+            }
+            sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
+            updateNotification(taskName, userName, now);
+        } else {
+            // Pokud je úkol odškrtnutý, aktualizujeme jeho stav v historii, ale neodstraníme ho
+            if (existingTaskIndex === -1) {
+                taskLog.push({ user: userName, task: taskName, time: timestamp, completed: false });
+            } else {
+                taskLog[existingTaskIndex].completed = false; // Nastavíme stav na "nekompletní"
+                taskLog[existingTaskIndex].time = timestamp; // Přepíšeme čas
+            }
+            sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
+            clearNotification();
+        }
+
+        // Uložit stav checkboxů do localStorage
+        saveCheckboxState();
+    });
+});
+
+// Posluchač pro změny v checkboxu (pro zaznamenání změny do UI)
+taskList.addEventListener('change', (event) => {
+    if (event.target.type === 'checkbox') {
+        const listItem = event.target.parentElement;
+        listItem.classList.toggle('completed');
+
+        // Zapsání úkolu do historie a sessionStorage
+        const taskName = listItem.textContent.trim();
+        const userName = sessionStorage.getItem("loggedInUser") || "Neznámý uživatel";
+        const now = new Date();
+        const timestamp = now.toISOString(); // Uložíme čas dokončení
+
+        let taskLog = JSON.parse(sessionStorage.getItem("taskLog")) || [];
+        
+        const existingTaskIndex = taskLog.findIndex(t => t.task === taskName && t.user === userName);
+
+        if (event.target.checked) {
+            // Pokud je úkol označený, přidáme ho do historie (pokud ještě není)
+            if (existingTaskIndex === -1) {
+                taskLog.push({ user: userName, task: taskName, time: timestamp, completed: true });
+            } else {
+                taskLog[existingTaskIndex].completed = true; // Aktualizujeme stav na "completed"
+                taskLog[existingTaskIndex].time = timestamp; // Přepíšeme čas
+            }
+            sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
+            updateNotification(taskName, userName, now);
+        } else {
+            // Pokud je úkol odškrtnutý, aktualizujeme jeho stav v historii, ale neodstraníme ho
+            if (existingTaskIndex === -1) {
+                taskLog.push({ user: userName, task: taskName, time: timestamp, completed: false });
+            } else {
+                taskLog[existingTaskIndex].completed = false; // Nastavíme stav na "nekompletní"
+                taskLog[existingTaskIndex].time = timestamp; // Přepíšeme čas
+            }
+            sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
+            clearNotification();
+        }
+
+        // Uložit stav checkboxů do localStorage
+        saveCheckboxState();
+    }
+});
+
+// Funkce pro uložení stavu checkboxů do localStorage
+function saveCheckboxState() {
+    const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
+    let checkboxStates = {};
+    
+    checkboxes.forEach((checkbox, index) => {
+        checkboxStates[index] = checkbox.checked;
+    });
+
+    localStorage.setItem("checkboxStates_page1", JSON.stringify(checkboxStates));
+}
+
+// Funkce pro obnovení stavu checkboxů z localStorage
+function restoreCheckboxState() {
+    const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
+    let checkboxStates = JSON.parse(localStorage.getItem("checkboxStates_page1")) || {};
+
+    checkboxes.forEach((checkbox, index) => {
+        if (checkboxStates[index]) {
+            checkbox.checked = true;
+            checkbox.parentElement.classList.add("completed");
+        }
+    });
+}
+
+// Funkce pro aktualizaci notifikace s časem
+function updateNotification(task, user, time) {
+    const now = time.toLocaleTimeString("cs-CZ", { hour: "2-digit", minute: "2-digit" });
+    const notificationBar = document.getElementById("notificationBar");
+    if (notificationBar) {
+        notificationBar.textContent = `Poslední dokončený úkol: ${task}; Řešitel: ${user}; v čase ${now} hod.`;
+    }
+}
+
+// Funkce pro výmaz notifikace
+function clearNotification() {
+    const notificationBar = document.getElementById("notificationBar");
+    if (notificationBar) {
+        notificationBar.textContent = ''; 
+    }
+}
+
+// Obnova stavu checkboxů a historie při načtení stránky
+document.addEventListener("DOMContentLoaded", function () {
+    restoreCheckboxState();
+    restoreNotification();  // Obnovíme poslední notifikaci
+});
+
+// Funkce pro obnovení notifikace
+function restoreNotification() {
+    let taskLog = JSON.parse(sessionStorage.getItem("taskLog")) || [];
+    if (taskLog.length > 0) {
+        let lastTask = taskLog[taskLog.length - 1];
+        let time = new Date(lastTask.time).toLocaleTimeString("cs-CZ", { hour: "2-digit", minute: "2-digit" });
+        updateNotification(lastTask.task, lastTask.user, time);
+    }
+}
+
 </script>
+
+
+
 
 
 
@@ -141,7 +304,7 @@ ukoly.forEach(ukol => {
 function checkHighlighted() {
    document.querySelectorAll('.highlight input[type="checkbox"]').forEach(checkbox => {
        checkbox.checked = true;
-       checkbox.parentElement.classList.add('completed'); // Přidá třídu completed
+       checkbox.parentElement.classList.add('completed'); // Přidá třídu 'completed'
    });
 }
 
@@ -158,24 +321,126 @@ listItem.classList.toggle('completed');
 </script>
 
 
-<script>
-       
+<button onclick="checkHighlighted()">Ranní kontrola</button>
+<button id="odznac" onclick="uncheckAll()">Odznačit vše</button>
+<button id= "logout" onclick="logout()">Odhlásit se</button>
+<button id="history" onclick="window.location.href='history.html'">Zobrazit historii</button>
 
-const taskList = document.getElementById('taskList');
-       
-taskList.addEventListener('click', (event) => {
-           
-if (event.target.tagName === 'LI') {
-               
-event.target.classList.toggle('completed');            }
-       });
+<script>
+function checkHighlighted() {
+   // Uložení stavu checkboxů do localStorage
+   document.querySelectorAll('.highlight input[type="checkbox"]').forEach(checkbox => {
+       checkbox.checked = true;
+       checkbox.parentElement.classList.add('completed'); // Přidá třídu completed
+   });
+
+   // Uložení stavu do localStorage
+   saveCheckboxState();
+}
+
+// Funkce pro uložení stavu checkboxů
+function saveCheckboxState() {
+    const checkboxStates = {};
+    document.querySelectorAll('.highlight input[type="checkbox"]').forEach((checkbox, index) => {
+        checkboxStates[index] = checkbox.checked;
+    });
+    localStorage.setItem('checkboxStates', JSON.stringify(checkboxStates));
+}
+
+// Funkce pro obnovení stavu checkboxů
+function loadCheckboxState() {
+    const savedState = localStorage.getItem('checkboxStates');
+    if (savedState) {
+        const checkboxStates = JSON.parse(savedState);
+        document.querySelectorAll('.highlight input[type="checkbox"]').forEach((checkbox, index) => {
+            if (checkboxStates[index] !== undefined) {
+                checkbox.checked = checkboxStates[index];
+                if (checkbox.checked) {
+                    checkbox.parentElement.classList.add('completed');
+                } else {
+                    checkbox.parentElement.classList.remove('completed');
+                }
+            }
+        });
+    }
+}
+
+// Zavolání loadCheckboxState při načtení stránky, aby se stav obnovil
+window.onload = loadCheckboxState;
 
 </script>
 
-<button onclick="checkHighlighted()">Ranní kontrola</button>
-<button onclick="uncheckAll()">Odznačit vše</button>
-<button onclick="logout()">Odhlásit se</button>
 
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const taskList = document.getElementById("taskList");
+
+    taskList.addEventListener("change", function (event) {
+        if (event.target && event.target.type === "checkbox") {
+            const taskName = event.target.parentElement.textContent.trim();
+            const userName = sessionStorage.getItem("loggedInUser") || "Neznámý uživatel";
+            const now = new Date();
+            const timestamp = now.toISOString(); // Uložíme čas dokončení
+
+            let taskLog = JSON.parse(sessionStorage.getItem("taskLog")) || [];
+            
+            if (event.target.checked) {
+                taskLog.push({ user: userName, task: taskName, time: timestamp });
+                sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
+                updateNotification(taskName, userName, now);
+            } else {
+                // Pokud checkbox je odškrtnutý, odebereme jej z localStorage
+                taskLog = taskLog.filter(t => t.task !== taskName);
+                sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
+                clearNotification();
+            }
+            
+            // Uložit stav checkboxů do localStorage
+            saveCheckboxState();
+        }
+    });
+
+    restoreCheckboxState(); // Při načtení stránky obnovíme checkboxy
+    restoreNotification();  // Obnovíme poslední notifikaci
+});
+</script>
+
+  <script>
+    function saveCheckboxState() {
+    const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
+    let checkboxStates = {};
+    
+    checkboxes.forEach((checkbox, index) => {
+        checkboxStates[index] = checkbox.checked;
+    });
+
+    localStorage.setItem("checkboxStates_page1", JSON.stringify(checkboxStates));
+}
+
+function restoreCheckboxState() {
+    const checkboxes = document.querySelectorAll("#taskList input[type='checkbox']");
+    let checkboxStates = JSON.parse(localStorage.getItem("checkboxStates_page1")) || {};
+
+    checkboxes.forEach((checkbox, index) => {
+        if (checkboxStates[index]) {
+            checkbox.checked = true;
+            checkbox.parentElement.classList.add("completed");
+        }
+    });
+}
+  </script>
+  <script>
+   function restoreNotification() {
+    let taskLog = JSON.parse(sessionStorage.getItem("taskLog")) || [];
+    if (taskLog.length > 0) {
+        let lastTask = taskLog[taskLog.length - 1];
+        let time = new Date(lastTask.time).toLocaleTimeString("cs-CZ", { hour: "2-digit", minute: "2-digit" });
+        updateNotification(lastTask.task, lastTask.user, time);
+    }
+}
+  </script> 
 
 <script>
 function uncheckAll() {
@@ -207,10 +472,9 @@ function uncheckAll() {
 <script>
 document.addEventListener("DOMContentLoaded", function () {
    const taskList = document.getElementById("taskList");
-   // Připojí event listener na celý seznam úkolů (delegace)
-   taskList.addEventListener("click", function (event) {
- 
- if (event.target && event.target.type === "checkbox") {
+   // Připojí event listener na celý seznam úkolů
+   taskList.addEventListener("change", function (event) {
+       if (event.target && event.target.type === "checkbox") {
            if (event.target.checked) {
                const taskName = event.target.parentElement.textContent.trim();
                const userName = sessionStorage.getItem("loggedInUser") || "Neznámý uživatel";
@@ -225,20 +489,21 @@ function updateNotification(task, user) {
    const notificationBar = document.getElementById("notificationBar");
    if (notificationBar) {
        
-notificationBar.textContent = `Poslední dokončený úkol: ${task}; Řešitel: ${user};
- v čase  ${now} hod.` }
+notificationBar.textContent = `Poslední dokončený úkol: ${task}  Řešitel: ${user} v čase: ${now} hod.
+ `  }
 }
 </script>
 
-  
-  
- <script>
+
+
+
+  <script>
 
     
 document.addEventListener("DOMContentLoaded", function () {
     const taskList = document.getElementById("taskList");
 
-    // Připojení event listeneru na změnu stavu checkboxu
+    // Připojíme event listener na změnu stavu checkboxu
     taskList.addEventListener("change", function (event) {
         if (event.target && event.target.type === "checkbox") {
             const taskName = event.target.parentElement.textContent.trim();
@@ -253,7 +518,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 localStorage.setItem("taskLog", JSON.stringify(taskLog));
                 updateNotification(taskName, userName, now);
             } else {
-                // Pokud checkbox není zaškrtnutý, vymaže se notifikace
+                // Pokud checkbox není zaškrtnutý, vymažeme notifikaci
                 clearNotification();
             }
         }
@@ -281,6 +546,5 @@ function clearNotification() {
 
 
   
-<button onclick="window.location.href='history.html'">Zobrazit historii</button>
 </body>
 </html>
