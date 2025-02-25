@@ -17,6 +17,31 @@
 
 
 <body>
+
+  <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyC1f2QCqhstimqyfIs1IGZZjYtJiO81Gtc",
+    authDomain: "ukolnik-4a935.firebaseapp.com",
+    databaseURL: "https://ukolnik-4a935-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "ukolnik-4a935",
+    storageBucket: "ukolnik-4a935.firebasestorage.app",
+    messagingSenderId: "956758246085",
+    appId: "1:956758246085:web:65e49cac38b0210658e6ac",
+    measurementId: "G-KZTCTHYJTW"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
 <div id="notificationBar"></div>
 
 
