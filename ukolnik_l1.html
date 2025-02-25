@@ -166,12 +166,12 @@ listItem.classList.toggle('completed');
             
             if (event.target.checked) {
                 taskLog.push({ user: userName, task: taskName, time: timestamp });
-                sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
+                saveStateToFirebase("taskLog", JSON.stringify(taskLog));
                 updateNotification(taskName, userName, now);
             } else {
                 // Pokud checkbox je odškrtnutý, odebereme jej
                 taskLog = taskLog.filter(t => t.task !== taskName);
-                sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
+                saveStateToFirebase("taskLog", JSON.stringify(taskLog));
                 clearNotification();
             }
             
@@ -194,7 +194,7 @@ listItem.classList.toggle('completed');
         checkboxStates[index] = checkbox.checked;
     });
 
-    localStorage.setItem("checkboxStates_page1", JSON.stringify(checkboxStates));
+    saveStateToFirebase("checkboxStates_page1", JSON.stringify(checkboxStates));
 }
 
 function restoreCheckboxState() {
@@ -211,7 +211,7 @@ function restoreCheckboxState() {
   </script>
   <script>
    function restoreNotification() {
-    let taskLog = JSON.parse(sessionStorage.getItem("taskLog")) || [];
+    let taskLog = JSON.parse(loadStateFromFirebase("taskLog")) || [];
     if (taskLog.length > 0) {
         let lastTask = taskLog[taskLog.length - 1];
         let time = new Date(lastTask.time).toLocaleTimeString("cs-CZ", { hour: "2-digit", minute: "2-digit" });
@@ -291,7 +291,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Pokud checkbox je zaškrtnutý, aktualizujeme notifikaci
             if (event.target.checked) {
-                let taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
+                let taskLog = JSON.parse(loadStateFromFirebase("taskLog")) || [];
                 taskLog.push({ user: userName, task: taskName, time: timestamp });
                 localStorage.setItem("taskLog", JSON.stringify(taskLog));
                 updateNotification(taskName, userName, now);
