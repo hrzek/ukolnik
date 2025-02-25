@@ -17,30 +17,6 @@
 
 
 <body>
-
- <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyD30Sw15a-eILMXPIoHcOoLZky1ipchaQk",
-    authDomain: "ukolnik-b8589.firebaseapp.com",
-    projectId: "ukolnik-b8589",
-    storageBucket: "ukolnik-b8589.firebasestorage.app",
-    messagingSenderId: "507064935760",
-    appId: "1:507064935760:web:359d014e617c524a76b855",
-    measurementId: "G-58FRTDJXR1"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
 <div id="notificationBar"></div>
 
 
@@ -166,12 +142,12 @@ listItem.classList.toggle('completed');
             
             if (event.target.checked) {
                 taskLog.push({ user: userName, task: taskName, time: timestamp });
-                saveStateToFirebase("taskLog", JSON.stringify(taskLog));
+                sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
                 updateNotification(taskName, userName, now);
             } else {
                 // Pokud checkbox je odškrtnutý, odebereme jej
                 taskLog = taskLog.filter(t => t.task !== taskName);
-                saveStateToFirebase("taskLog", JSON.stringify(taskLog));
+                sessionStorage.setItem("taskLog", JSON.stringify(taskLog));
                 clearNotification();
             }
             
@@ -194,7 +170,7 @@ listItem.classList.toggle('completed');
         checkboxStates[index] = checkbox.checked;
     });
 
-    saveStateToFirebase("checkboxStates_page1", JSON.stringify(checkboxStates));
+    localStorage.setItem("checkboxStates_page1", JSON.stringify(checkboxStates));
 }
 
 function restoreCheckboxState() {
@@ -211,7 +187,7 @@ function restoreCheckboxState() {
   </script>
   <script>
    function restoreNotification() {
-    let taskLog = JSON.parse(loadStateFromFirebase("taskLog")) || [];
+    let taskLog = JSON.parse(sessionStorage.getItem("taskLog")) || [];
     if (taskLog.length > 0) {
         let lastTask = taskLog[taskLog.length - 1];
         let time = new Date(lastTask.time).toLocaleTimeString("cs-CZ", { hour: "2-digit", minute: "2-digit" });
@@ -291,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Pokud checkbox je zaškrtnutý, aktualizujeme notifikaci
             if (event.target.checked) {
-                let taskLog = JSON.parse(loadStateFromFirebase("taskLog")) || [];
+                let taskLog = JSON.parse(localStorage.getItem("taskLog")) || [];
                 taskLog.push({ user: userName, task: taskName, time: timestamp });
                 localStorage.setItem("taskLog", JSON.stringify(taskLog));
                 updateNotification(taskName, userName, now);
